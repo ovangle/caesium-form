@@ -1,0 +1,113 @@
+@media screen and (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+:host {
+  display: inline-block;
+  contain: content;
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+:host[class*="col-"] {
+  float: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+:host .form-control {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+}
+:host .form-control:focus {
+  z-index: 3;
+}
+:host /deep/ [ngModel],
+:host /deep/ [formControl],
+:host /deep/ [formControlName] {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+:host /deep/ [ngModel]:focus,
+:host /deep/ [formControl]:focus,
+:host /deep/ [formControlName]:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+:host /deep/ [ngModel]::-moz-placeholder,
+:host /deep/ [formControl]::-moz-placeholder,
+:host /deep/ [formControlName]::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+:host /deep/ [ngModel]:-ms-input-placeholder,
+:host /deep/ [formControl]:-ms-input-placeholder,
+:host /deep/ [formControlName]:-ms-input-placeholder {
+  color: #999;
+}
+:host /deep/ [ngModel]::-webkit-input-placeholder,
+:host /deep/ [formControl]::-webkit-input-placeholder,
+:host /deep/ [formControlName]::-webkit-input-placeholder {
+  color: #999;
+}
+:host /deep/ [ngModel]::-ms-expand,
+:host /deep/ [formControl]::-ms-expand,
+:host /deep/ [formControlName]::-ms-expand {
+  border: 0;
+  background-color: transparent;
+}
+:host /deep/ [ngModel][disabled],
+:host /deep/ [formControl][disabled],
+:host /deep/ [formControlName][disabled],
+:host /deep/ [ngModel][readonly],
+:host /deep/ [formControl][readonly],
+:host /deep/ [formControlName][readonly],
+fieldset[disabled] :host /deep/ [ngModel],
+fieldset[disabled] :host /deep/ [formControl],
+fieldset[disabled] :host /deep/ [formControlName] {
+  background-color: #eeeeee;
+  opacity: 1;
+}
+:host /deep/ [ngModel][disabled],
+:host /deep/ [formControl][disabled],
+:host /deep/ [formControlName][disabled],
+fieldset[disabled] :host /deep/ [ngModel],
+fieldset[disabled] :host /deep/ [formControl],
+fieldset[disabled] :host /deep/ [formControlName] {
+  cursor: not-allowed;
+}
+textarea:host /deep/ [ngModel],
+textarea:host /deep/ [formControl],
+textarea:host /deep/ [formControlName] {
+  height: auto;
+}

@@ -1,0 +1,15 @@
+
+cs-form-group {
+  display: block;
+  contain: content;
+}
+
+.label-container /deep/ label {
+  @extend .form-control-label;
+}
+
+.label-container.col-sm-4 /deep/ label {
+  @extend .col-form-label;
+}
+
+
