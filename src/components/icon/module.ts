@@ -9,7 +9,7 @@ export {CsIcon};
     declarations: [CsIcon],
     exports: [CsIcon]
 })
-export class IconModule {}
+export class CsIconModule {}
 
 
 
