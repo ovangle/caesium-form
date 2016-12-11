@@ -1,11 +1,11 @@
 import {Set} from 'immutable';
 
 import {
-    Component, Input, NgModule, ChangeDetectionStrategy, ViewEncapsulation,
-    ElementRef, Renderer
+    Component, Input,
+    ChangeDetectionStrategy,
+    ViewEncapsulation,
+    ElementRef
 } from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {HttpModule, Http} from '@angular/http';
 
 import {isBlank} from 'caesium-core/lang';
 
@@ -25,7 +25,6 @@ import {isBlank} from 'caesium-core/lang';
     </style>    
     <span [ngClass]="iconClasses.toObject()"></span>
     `,
-    styleUrls: ['./font-awesome.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsIcon {
