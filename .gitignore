@@ -4,5 +4,7 @@
 node_modules/*
 src/**/*.js
 src/**/*.js.map
+src/**/*.css
+src/**/*.css.map
 index.js
 index.js.map
