@@ -26,10 +26,12 @@ export type CsDropdownState = 'closed' | 'open';
     moduleId: module.id,
     selector: 'cs-dropdown',
     template: `
+    <style>
+    :host { display: block; } 
+    </style> 
     <ng-content select="[csDropdownToggle]"></ng-content>
     
-    <div *ngIf="_open" 
-        class="dropdown-menu"
+    <div class="dropdown-menu"
         [ngClass]="{
             'dropdown-menu-right': _classes.contains('align-right'),
             'dropdown-menu-left': _classes.contains('align-left')
@@ -37,9 +39,11 @@ export type CsDropdownState = 'closed' | 'open';
         <ng-content></ng-content>
     </div> 
     `,
-    styleUrls: ['../bootstrap.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.Native
+    host: {
+        '[class.dropdown]': 'true',
+        '[class.open]': '_open'
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDropdown {
 
@@ -87,6 +91,7 @@ export type ToggleEventType = 'click';
 @Directive({
     selector: '[csDropdownToggle]',
     host: {
+        '[class.dropdown-toggle]': 'true',
         '(click)': 'click($event)'
     }
 })
@@ -114,45 +119,6 @@ export class CsDropdownToggle {
         }
     }
 
-
-    /*
-    private mousein(event: MouseEvent) {
-        if (this._toggleEvent === 'mouseover' && !isDefined(this._initMousePosition)) {
-            this.dropdown.open();
-            this._initMousePosition = {x: event.clientX, y: event.clientY};
-
-            let releaseHandler: Function;
-            let mouseMove = Observable.fromEventPattern<MouseEvent>(
-                (handler) => {
-                    releaseHandler = this.renderer.listenGlobal('window', 'mousemove', handler)
-                },
-                (handler) => releaseHandler(handler)
-            );
-
-            // A section of width 30 degrees through which the mouse can travel
-            // without closing the menu
-            const THRESHOLD = Math.PI / 6;
-
-            // Track the mouse movements towards the menu.
-            // If the mouse moves
-            let mouseMoveSubscription = mouseMove
-                .debounceTime(50)
-                .skipWhile(mouseEvent => {
-                    let initPos= this._initMousePosition;
-                    let currPos = {x: mouseEvent.clientX, y: mouseEvent.clientY};
-
-                    let angle = Math.atan2(currPos.x - initPos.x, currPos.y - initPos.y);
-                    return Math.abs(angle) > THRESHOLD;
-                })
-                .first()
-                .subscribe((event: MouseEvent) => {
-                    this.dropdown.closeIfNotMouseOver(event.target);
-
-                });
-
-        }
-    }
-    */
 }
 
 

@@ -5,6 +5,8 @@
 
 ### Bugfixes
 
+- Dropdown should not declare css overrides for bootstrap classes
+
 ### Breaking changes
 
 renamed `IconModule` to `CsIconModule` to match naming schema used elsewhere in project

@@ -11,13 +11,7 @@ import {isDefined} from 'caesium-core/lang';
 @Component({
     moduleId: module.id,
     selector: 'cs-dropdown-menu',
-    template: `
-    <ng-content></ng-content>
-    `,
-    host: {
-        '[class.dropdown-menu]': 'true'
-    },
-    styleUrls: ['../bootstrap.css']
+    template: `<ng-content></ng-content>`,
 })
 export class CsDropdownMenu {
     @Input() name: string;
@@ -47,6 +41,7 @@ export class CsDropdownMenu {
     selector: 'button[csMenuAction]',
     host: {
         '(click)': 'actionSelect.emit(name)',
+        '[class.dropdown-item]': 'true',
         '[class.disabled]': 'disabled'
     }
 })
