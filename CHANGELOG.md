@@ -3,6 +3,9 @@
 ## 0.0.2
 ### Features
 
+- Added `<cs-email-input>` element, wraps `<input type=email>`.
+  No particularly interesting functionality, mainly for symmetry with `<cs-phone-input>`
+
 ### Bugfixes
 
 - Dropdown should not declare css overrides for bootstrap classes
