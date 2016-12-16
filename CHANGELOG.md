@@ -3,8 +3,17 @@
 ## 0.0.2
 ### Features
 
+- Added `PhoneNumber` type, representing a locale formatted string of digits which is to be interpreted as a phone number.
+  - PhoneNumber is a type alias for `string` and represents a formatted, localised phone number.
+  - Exposes a display codec, validation function and localization service for dealing with phone numbers.
+
+- Added `<cs-phone-input>` element, wraps `<input type=tel>`
+  - Allows users to input phone numbers in a format determined by their locale.
+  - Adds bootstrap input-group to input, with a phone icon determined by the type.
+
 - Added `<cs-email-input>` element, wraps `<input type=email>`.
-  No particularly interesting functionality, mainly for symmetry with `<cs-phone-input>`
+  - No functional difference to <input type=tel>`, mainly for symmetry with `<cs-phone-input>`
+  - Adds input-group to input element, with an email icon addon
 
 ### Bugfixes
 
