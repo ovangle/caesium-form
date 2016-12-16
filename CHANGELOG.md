@@ -7,6 +7,9 @@
   - PhoneNumber is a type alias for `string` and represents a formatted, localised phone number.
   - Exposes a display codec, validation function and localization service for dealing with phone numbers.
 
+- Added angular pipe for displaying formatted phone numbers.
+
+
 - Added `<cs-phone-input>` element, wraps `<input type=tel>`
   - Allows users to input phone numbers in a format determined by their locale.
   - Adds bootstrap input-group to input, with a phone icon determined by the type.

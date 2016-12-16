@@ -6,14 +6,15 @@ import {CsIconModule} from '../icon/module';
 import {PhoneLocalization} from '../../models/phone_number';
 
 import {CsPhoneInput, PhoneInputControlValueAccessor} from './phone-input';
-import {PhonePipe} from './phone-pipe';
+import {CsPhonePipe} from './phone-pipe';
 
-export {CsPhoneInput, PhonePipe};
+export {CsPhoneInput, CsPhonePipe};
 
 @NgModule({
     imports: [CommonModule, CsIconModule, ReactiveFormsModule],
     declarations: [
         CsPhoneInput,
+        CsPhonePipe
     ],
     providers: [
         PhoneLocalization,
@@ -21,6 +22,7 @@ export {CsPhoneInput, PhonePipe};
     ],
     exports: [
         CsPhoneInput,
+        CsPhonePipe
     ]
 })
 export class PhoneModule {}
