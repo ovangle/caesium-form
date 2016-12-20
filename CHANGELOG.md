@@ -21,6 +21,16 @@
   - No functional difference to <input type=tel>`, mainly for symmetry with `<cs-phone-input>`
   - Adds input-group to input element, with an email icon addon
 
+#### enum
+
+- Added CsEnum type for describing enumerated type metadata
+- Added `<cs-enum-select>` component, for selecting the value of an enumerated type
+  - Wrapper for native `<select>` element. When arbitrary user inputs are allowed as a value of the enumerated
+    type. An optional input can be added as a child for input of arbitrary values if the enum type supports them.
+
+
+
+
 ### Bugfixes
 
 #### bootstrap.dropdown
@@ -33,7 +43,7 @@
 ### Breaking changes
 
 #### bootstrap.moda
-    - Renamed `state` to `displayState` and `stateChange` to `displayStateChange` on `CsModalOutlet`.
+    - Renamed `state` o `displayState` and `stateChange` to `displayStateChange` on `CsModalOutlet`.
 
 #### icon
 - renamed `IconModule` to `CsIconModule` to match naming schema used elsewhere in project

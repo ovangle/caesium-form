@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  contain: content;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+cs-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+  opacity: 0.4;
+}
+
+.other-input{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
