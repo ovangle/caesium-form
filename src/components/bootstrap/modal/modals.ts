@@ -8,7 +8,7 @@ import {Injectable, TemplateRef, EventEmitter} from '@angular/core';
 import {isDefined} from 'caesium-core/lang';
 
 import {CsModalRef} from './modal-ref';
-import {CsModalOutlet, ModalOutletState, ModalOutletException} from './modal-outlet';
+import {CsModalOutlet, ModalOutletDisplayState, ModalOutletException} from './modal-outlet';
 
 export interface CsModalOptions {
     backdrop?: boolean;
@@ -40,7 +40,7 @@ export interface CsModalDismissalReason {
 export class CsModals {
     private _outlet: CsModalOutlet;
 
-    outletState = new EventEmitter<ModalOutletState>();
+    outletState = new EventEmitter<ModalOutletDisplayState>();
     dismissEvent = new EventEmitter<CsModalDismissalReason>();
 
     get hasOutlet(): boolean {
@@ -52,7 +52,7 @@ export class CsModals {
             throw ModalOutletException.alreadyRegistered;
         }
         this._outlet = outlet;
-        outlet.modalStateChange.subscribe((stateChange: ModalOutletState) => {
+        outlet.displayStateChange.subscribe((stateChange: ModalOutletDisplayState) => {
             this.outletState.emit(stateChange);
         });
         outlet.dismissEvent.subscribe((dismissal: CsModalDismissalReason) => {

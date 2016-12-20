@@ -22,7 +22,7 @@ import {
 } from './modals';
 import {CsModalRef} from './modal-ref';
 
-export type ModalOutletState = 'showing' | 'shown' | 'hiding' | 'hidden';
+export type ModalOutletDisplayState = 'showing' | 'shown' | 'hiding' | 'hidden';
 
 /**
  * The outlet for modals.
@@ -53,8 +53,7 @@ export type ModalOutletState = 'showing' | 'shown' | 'hiding' | 'hidden';
             in: hasContent && isShown
         }"
         [style.display]="hasContent ? 'block' : 'none'"
-        (transitionend)="_onTransitionEnd($event)"
-        
+        (transitionend)="_onTransitionEnd($event)" 
         #modalContainer
     >
         <div class="modal-dialog">
@@ -65,8 +64,9 @@ export type ModalOutletState = 'showing' | 'shown' | 'hiding' | 'hidden';
     </div>
     `,
     host: {
-        '(keyup.esc)': '_onKeyUp($event)',
-        '(click)': '_onClick($event)'
+        '(keyup)': '_onKeyUp($event)',
+        '(click)': '_onClick($event)',
+
     },
     styleUrls: [
         '../bootstrap.css'
@@ -84,11 +84,9 @@ export class CsModalOutlet implements OnInit {
     private _modalContainer: ElementRef;
 
     @Output()
-    modalStateChange = new EventEmitter<ModalOutletState>();
+    displayStateChange = new EventEmitter<ModalOutletDisplayState>();
     @Output('dismiss')
     dismissEvent = new EventEmitter<CsModalDismissalReason>();
-
-    @Output() transitionEnd = new EventEmitter<any>();
 
     constructor(
         @Inject(forwardRef(() => CsModals)) private modals: CsModals,
@@ -105,7 +103,7 @@ export class CsModalOutlet implements OnInit {
     get isShown(): boolean { return this._isShown; }
     get isTransitioning(): boolean { return this._isTransitioning; }
 
-    get _state(): ModalOutletState {
+    get displayState(): ModalOutletDisplayState {
         if (this.isShown) {
             return this.isTransitioning ? 'showing': 'shown';
         } else {
@@ -114,7 +112,6 @@ export class CsModalOutlet implements OnInit {
     }
 
     ngOnInit() {
-        console.log('outlet.ngOnInit');
         this.modals.registerOutlet(this);
     }
 
@@ -139,53 +136,49 @@ export class CsModalOutlet implements OnInit {
         this._content = null;
         this._options = null;
         this._cd.markForCheck();
-
     }
 
     async show(): Promise<CsModalRef<any>> {
+        if (this.isTransitioning)
+            await this._nextTransitionEnd();
+
         if (this.isShown)
             return;
 
         if (!this.hasContent)
             throw ModalOutletException.templateRequired;
 
-        if (this.isTransitioning)
-            await this._nextTransitionEnd();
-
         this._setBodyOpen(true);
 
-        await new Promise<CsModalRef<any>>((resolve, reject) => {
-            // Let the change detector pass over, opening the backdrop and
-            // populating the template before displaying the modal.
-            // Otherwise transitions will not be applied.
-            window.setTimeout(() => {
-                this._isShown = true;
-                this._isTransitioning = true;
-                this.modalStateChange.emit('showing');
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        this._isShown = true;
+        this._isTransitioning = true;
+        this.displayStateChange.emit(this.displayState);
 
-                this._nextTransitionEnd().then((_) => {
-                    if (this._options.focus)
-                        this.focus()
-                });
-                this._cd.markForCheck();
-
-                resolve();
-            });
+        this._nextTransitionEnd().then((_) => {
+            if (this._options.focus)
+                this.focus()
         });
+        this._cd.markForCheck();
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+
         return new CsModalRef<any>(this, this._content, this._options);
     }
 
     async hide(): Promise<any> {
-        if (!this.isShown)
-            return;
         if (this.isTransitioning)
             await this._nextTransitionEnd();
 
+        if (!this.isShown)
+            return;
+
+        await new Promise(resolve => requestAnimationFrame(resolve));
         this._setBodyOpen(false);
         this._isShown = false;
         this._isTransitioning = true;
-        this.modalStateChange.emit('hiding');
+        this.displayStateChange.emit(this.displayState);
         this._cd.markForCheck();
+        await new Promise(resolve => requestAnimationFrame(resolve));
     }
 
     focus() {
@@ -195,9 +188,8 @@ export class CsModalOutlet implements OnInit {
     }
 
     private _onTransitionEnd(event: any) {
-        this.modalStateChange.emit(this.isShown ? 'shown' : 'hidden');
-        this.transitionEnd.emit(event);
         this._isTransitioning = false;
+        this.displayStateChange.emit(this.displayState);
     }
 
     private _onKeyUp(event: KeyboardEvent){
@@ -234,7 +226,18 @@ export class CsModalOutlet implements OnInit {
     }
 
     private _nextTransitionEnd(): Promise<any> {
-        return this.transitionEnd.first().toPromise();
+        switch (this.displayState) {
+            case 'showing':
+                return this.displayStateChange
+                    .filter(state => state === 'shown')
+                    .first().toPromise();
+            case 'hiding':
+                return this.displayStateChange
+                    .filter(state => state === 'hidden')
+                    .first().toPromise();
+            default:
+                return Promise.resolve();
+        }
     }
 
     async display(template: TemplateRef<any>, options: CsModalOptions): Promise<CsModalRef<any>> {
