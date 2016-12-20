@@ -109,7 +109,7 @@ export class EmailInputControlValueAccessor implements ControlValueAccessor {
     }
 
     registerOnTouched(fn: () => any) {
-        this.emailInput.emailChange.subscribe(fn);
+        this.emailInput.touch.subscribe(fn);
     }
 
 }
