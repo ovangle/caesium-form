@@ -115,7 +115,7 @@ export class CsModalOutlet implements OnInit {
         this.modals.registerOutlet(this);
     }
 
-    setContent(content: TemplateRef<any>, options?: CsModalOptions): void {
+    setContent(content: TemplateRef<any>, options?: CsModalOptions) {
         options = Object.assign({}, modalOptionDefaults, options);
 
         if (this.isShown || this.isTransitioning) {
@@ -131,16 +131,16 @@ export class CsModalOutlet implements OnInit {
         if (this.isShown)
             throw ModalOutletException.setContentOfActiveModal;
         if (this.isTransitioning)
-            await this._nextTransitionEnd();
+            await this.nextTransitionEnd();
 
         this._content = null;
-        this._options = null;
+        this._options = modalOptionDefaults;
         this._cd.markForCheck();
     }
 
     async show(): Promise<CsModalRef<any>> {
         if (this.isTransitioning)
-            await this._nextTransitionEnd();
+            await this.nextTransitionEnd();
 
         if (this.isShown)
             return;
@@ -150,35 +150,35 @@ export class CsModalOutlet implements OnInit {
 
         this._setBodyOpen(true);
 
-        await new Promise((resolve) => requestAnimationFrame(resolve));
+        //await new Promise((resolve) => requestAnimationFrame(resolve));
         this._isShown = true;
         this._isTransitioning = true;
         this.displayStateChange.emit(this.displayState);
 
-        this._nextTransitionEnd().then((_) => {
+        this.nextTransitionEnd().then((_) => {
             if (this._options.focus)
                 this.focus()
         });
         this._cd.markForCheck();
-        await new Promise((resolve) => requestAnimationFrame(resolve));
+        //await new Promise((resolve) => requestAnimationFrame(resolve));
 
         return new CsModalRef<any>(this, this._content, this._options);
     }
 
     async hide(): Promise<any> {
         if (this.isTransitioning)
-            await this._nextTransitionEnd();
+            await this.nextTransitionEnd();
 
         if (!this.isShown)
             return;
 
-        await new Promise(resolve => requestAnimationFrame(resolve));
+        //await new Promise(resolve => requestAnimationFrame(resolve));
         this._setBodyOpen(false);
         this._isShown = false;
         this._isTransitioning = true;
         this.displayStateChange.emit(this.displayState);
         this._cd.markForCheck();
-        await new Promise(resolve => requestAnimationFrame(resolve));
+        //await new Promise(resolve => requestAnimationFrame(resolve));
     }
 
     focus() {
@@ -187,13 +187,13 @@ export class CsModalOutlet implements OnInit {
         }
     }
 
-    private _onTransitionEnd(event: any) {
+    private _onTransitionEnd() {
         this._isTransitioning = false;
         this.displayStateChange.emit(this.displayState);
     }
 
     private _onKeyUp(event: KeyboardEvent){
-        if (!this.isShown || !this._options.keyboard)
+        if (!this._options.keyboard)
             return;
 
         if (event.key === 'Escape') {
@@ -202,7 +202,7 @@ export class CsModalOutlet implements OnInit {
     }
 
     private _onClick(event: MouseEvent) {
-        if (!this.isShown || !this._options.backdrop)
+        if (!this._options.backdrop)
             return;
         // Path not in typescript Event
         let path: EventTarget[] = (event as any).path;
@@ -225,7 +225,7 @@ export class CsModalOutlet implements OnInit {
         this._renderer.setElementClass(document.body, 'modal-open', open);
     }
 
-    private _nextTransitionEnd(): Promise<any> {
+    nextTransitionEnd(): Promise<ModalOutletDisplayState> {
         switch (this.displayState) {
             case 'showing':
                 return this.displayStateChange
@@ -235,27 +235,36 @@ export class CsModalOutlet implements OnInit {
                 return this.displayStateChange
                     .filter(state => state === 'hidden')
                     .first().toPromise();
-            default:
-                return Promise.resolve();
         }
+        return Promise.resolve(this.displayState);
     }
 
     async display(template: TemplateRef<any>, options: CsModalOptions): Promise<CsModalRef<any>> {
+
+        await new Promise(requestAnimationFrame);
         await this.setContent(template, options);
+
         // Explicitly run change detection so that content hidden by *ngIf
         // is visible before animating the modal.
         this._cd.detectChanges();
+
+        await new Promise(requestAnimationFrame);
         return await this.show();
     }
 
     async dismiss(reason: CsModalDismissalReason): Promise<void> {
         reason.content = this._content;
+        await new Promise(requestAnimationFrame);
+        this.dismissEvent.emit(reason);
         await this.hide();
         // Explicitly run change detection so that content hidden by *ngIf
         // is visible before animating the modal.
         this._cd.detectChanges();
+        await new Promise(requestAnimationFrame);
+        await this.nextTransitionEnd();
         await this.clearContent();
-        this.dismissEvent.emit(reason);
+        this._cd.detectChanges();
+        await new Promise(requestAnimationFrame);
     }
 }
 

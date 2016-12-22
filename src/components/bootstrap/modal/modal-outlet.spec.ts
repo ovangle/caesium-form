@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/reduce';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/do';
 
 import {Component, Directive, ViewChild, TemplateRef, DebugElement} from '@angular/core';
 import {async, inject, TestBed, ComponentFixture} from '@angular/core/testing';
@@ -64,6 +65,8 @@ describe('components.bootstrap.modal.modal-outlet', () => {
             let outletComponent: CsModalOutlet = outlet.componentInstance;
             await outletComponent.display(template, options);
             fixture.detectChanges();
+            if (outletComponent.isTransitioning)
+                await outletComponent.nextTransitionEnd();
             await test();
             await outletComponent.dismiss({type: 'template'});
         }
@@ -127,6 +130,7 @@ describe('components.bootstrap.modal.modal-outlet', () => {
 
             expect(document.body.classList).not.toContain('modal-open');
 
+            await new Promise(requestAnimationFrame);
             await outletComponent.show();
             fixture.detectChanges();
 
@@ -142,7 +146,7 @@ describe('components.bootstrap.modal.modal-outlet', () => {
 
             expect(document.body.classList).toContain('modal-open', 'Should apply the \'modal-open\' class to document.body');
 
-            await outletComponent.displayStateChange.first().toPromise();
+            await outletComponent.nextTransitionEnd();
 
             expect(outletComponent.isTransitioning).toBe(false, 'wait for show transition to end');
 
@@ -210,13 +214,14 @@ describe('components.bootstrap.modal.modal-outlet', () => {
         it('if keyboard is set, should dismiss the modal on "Esc" keyup', async (done) => {
             await withOpenModal({keyboard: true}, async() => {
                 let outletComponent: CsModalOutlet = outlet.componentInstance;
-                let reason$ = outletComponent.dismissEvent.first();
+                let reason$ = outletComponent.dismissEvent.first().toPromise();
 
                 outlet.triggerEventHandler('keyup', {key: 'Escape'});
                 fixture.detectChanges();
 
                 try {
-                    let reason = await reason$.toPromise();
+                    let reason = await reason$;
+                    await outletComponent.nextTransitionEnd();
                     expect(outletComponent.isShown).toBe(false, 'should dismiss the modal');
                     expect(reason).toEqual({type: 'keyboard', content: template});
                 } catch (e) {
@@ -238,19 +243,20 @@ describe('components.bootstrap.modal.modal-outlet', () => {
                     expect(e.message).toBe('timeout');
                 }
             });
+            await new Promise(window.setTimeout);
             done();
         });
 
-
         it('if options.backdrop is set, should dismiss the modal when clicking on the backdrop', async (done) => {
+            let t1 = new Date().valueOf();
             let outletComponent: CsModalOutlet = outlet.componentInstance;
 
             await withOpenModal({backdrop: true}, async() => {
-                let reason$ = outletComponent.dismissEvent.first();
+                let reason$ = outletComponent.dismissEvent.first().toPromise();
                 outlet.triggerEventHandler('click', {path: []});
                 fixture.detectChanges();
                 try {
-                    let reason = await reason$.toPromise();
+                    let reason = await reason$;
                     expect(reason).toEqual({type: 'backdrop', content: template});
                 } catch (e) {
                     fail('did not dismiss the modal, caught:\n' + e.toString());
@@ -258,8 +264,9 @@ describe('components.bootstrap.modal.modal-outlet', () => {
             });
 
             await withOpenModal({backdrop: true}, async() => {
-                let reason$ = outletComponent.dismissEvent.timeout(200).first().toPromise();
                 let modalContainer = outlet.nativeElement.shadowRoot.querySelector('.modal');
+
+                let reason$ = outletComponent.dismissEvent.timeout(50).first().toPromise();
                 outlet.triggerEventHandler('click', {path: [modalContainer]});
                 fixture.detectChanges();
                 try {
@@ -268,23 +275,27 @@ describe('components.bootstrap.modal.modal-outlet', () => {
                 } catch (e) {
                     expect(e.message).toBe('timeout');
                 }
-
             });
 
             await withOpenModal({backdrop: false}, async() => {
-                let reason$ = outletComponent.dismissEvent.timeout(200).first().toPromise();
-
+                let reason$ = outletComponent.dismissEvent.do((evt) => {
+                    console.log('dismissed', evt);
+                }).timeout(50).first().toPromise();
                 outlet.triggerEventHandler('click', {path: []});
                 fixture.detectChanges();
                 try {
                     await reason$;
                     fail('should not have dismissed the modal, options.backdrop is false');
                 } catch (e) {
+                    console.log('caught: ', e);
                     expect(e.message).toBe('timeout');
                 }
             });
+            let t2 = new Date().valueOf();
+            console.log('elapsed: ', t2 - t1);
+
             done();
-        }, 1000);
+        }, 1500);
     });
 });
 
