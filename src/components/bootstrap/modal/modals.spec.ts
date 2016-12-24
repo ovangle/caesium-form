@@ -7,12 +7,12 @@ import {ModalOutletException} from './modal-outlet';
 import {CsModals} from './modals';
 
 class MockOutlet {
-    modalStateChange = new EventEmitter<any>();
+    displayStateChange = new EventEmitter<any>();
     dismissEvent = new EventEmitter<any>();
 }
 
 
-describe('components.bootstrap.modal.modal-service', () => {
+describe('components.bootstrap.modal.modals', () => {
     describe('ModalService', () => {
 
         beforeEach(() => {
