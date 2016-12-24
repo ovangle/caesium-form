@@ -21,7 +21,7 @@ export const AllowOtherEnum= new CsEnum([
     {value: 'OPTION_B', display: 'Option B'},
     {value: 'OPTION_C', display: 'Option C'},
     {value: 'OTHER', display: 'Other...', isOther: true}
-]);
+], {formatOther: (description) => `Other (${description})`});
 
 
 describe('components.enum.enum-meta', () => {
@@ -29,7 +29,7 @@ describe('components.enum.enum-meta', () => {
         expect(BasicEnum.displayValues.get('OPTION_A')).toBe('Option A');
         expect(BasicEnum.displayValues.get('OPTION_C')).toBe('Option C');
         expect(AllowNullEnum.displayValues.get(null)).toBe('-- None / Not disclosed --');
-    })
+    });
 
     it('should be nullable if it has a `null` value', () => {
         expect(BasicEnum.isNullable).toBe(false);
@@ -40,6 +40,15 @@ describe('components.enum.enum-meta', () => {
         expect(AllowOtherEnum.isOtherValue(null)).toBe(false);
         expect(AllowOtherEnum.isOtherValue('OPTION_A')).toBe(false);
         expect(AllowOtherEnum.isOtherValue('OTHER')).toBe(true);
+    });
+
+    it('should be possible to format an enum value', () => {
+        expect(BasicEnum.formatValue('OPTION_A')).toBe('Option A');
+        expect(BasicEnum.formatValue('OPTION_F')).toBe('OPTION_F', 'unknown values should be returned unchanged');
+
+        expect(AllowOtherEnum.formatValue('OTHER', 'description')).toBe('Other (description)');
+        // Requires an otherDescription to be passed.
+        expect(() => AllowOtherEnum.formatValue('OTHER')).toThrow();
     });
 });
 

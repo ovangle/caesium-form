@@ -31,8 +31,7 @@
   - Wrapper for native `<select>` element. When arbitrary user inputs are allowed as a value of the enumerated
     type. An optional input can be added as a child for input of arbitrary values if the enum type supports them.
 
-
-
+- Added angular pipe for displaying enum values
 
 ### Bugfixes
 
