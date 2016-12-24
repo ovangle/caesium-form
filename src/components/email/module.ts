@@ -4,14 +4,16 @@ import {ReactiveFormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 import {CsIconModule} from '../icon/module';
 
-import {CsEmailInput, EmailInputControlValueAccessor} from './email-input';
+import {CsEmailInput} from './email-input';
+import {CsEmailAnchor} from './email-anchor';
 
-export {CsEmailInput};
+export {CsEmailInput, CsEmailAnchor};
 
 @NgModule({
     imports: [CommonModule, ReactiveFormsModule, CsIconModule],
     declarations: [
-        CsEmailInput
+        CsEmailInput,
+        CsEmailAnchor
     ],
 })
 export class CsEmailModule { }

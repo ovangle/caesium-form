@@ -21,6 +21,9 @@
   - No functional difference to <input type=tel>`, mainly for symmetry with `<cs-phone-input>`
   - Adds input-group to input element, with an email icon addon
 
+- Added `<cs-email-anchor>` element, wraps `<a>`
+
+
 #### enum
 
 - Added CsEnum type for describing enumerated type metadata
