@@ -3,6 +3,23 @@
 ## 0.0.2
 ### Features
 
+#### toggle
+
+- Added generic `CsToggle` directive.
+    A toggle is the inverse of an `NgSwitch`. Wheras a switch chooses its content depending on the value passed to it,
+    a toggle outputs a value depending on which of it's children are "activated" (for some definition of activate).
+
+- Added generic `CsToggleOption` interface.
+    The children of a toggle which conform to the toggleOption interface can be used to activate the value of
+    the toggle.
+
+- Added `CsAnchorToggleOption`.
+    An implementation of `CsToggleOption` which takes it's value from the `href` attribute of an `<a>` element and is
+    activated when the anchor element is clicked
+
+- Added `CsButtonToggleOption`.
+    An implementation of `CsToggleOption` which is activated whenever the given button is clicked.
+
 #### phone
 
 - Added `PhoneNumber` type, representing a locale formatted string of digits which is to be interpreted as a phone number.
