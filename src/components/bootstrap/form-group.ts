@@ -28,11 +28,6 @@ import {isDefined, isBlank} from 'caesium-core/lang';
  */
 @Directive({
     selector: '[csIfInputError]',
-    /*
-    host: {
-        '[class.help-block]': 'true'
-    }
-    */
 })
 export class CsIfInputError {
     @Input('csIfInputError') errorKey: string;
