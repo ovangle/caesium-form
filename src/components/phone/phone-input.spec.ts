@@ -161,7 +161,6 @@ describe('components.phone.phone-input', () => {
         });
 
         it('should be usable with the ngModel API', async (done) => {
-            console.log(fixture.componentInstance.phone);
             fixture.detectChanges();
             fixture.componentInstance.phone = '1243211234';
             fixture.detectChanges();
