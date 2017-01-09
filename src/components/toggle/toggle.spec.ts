@@ -13,7 +13,7 @@ import {By} from '@angular/platform-browser';
 
 import {isBlank} from 'caesium-core/lang';
 
-import {CsToggle, CsToggleOption, CsToggleActive, CsSimpleToggleOption} from './toggle';
+import {CsToggle, CsToggleOption, CsOnOffToggle, CsSimpleToggleOption} from './toggle';
 
 @Component({
     selector: 'cs-toggle-host',
@@ -48,7 +48,7 @@ export class CsToggleHost {
     selector: 'cs-toggle-active-host',
     template: `
     <div (csToggle)="activeChange.emit($event)">
-        <button [csToggleActive]="true" class="btn btn-secondary">ON/OFF</button> 
+        <button csOnOffToggle [active]="true" class="btn btn-secondary">ON/OFF</button> 
     </div>
     
     <div *ngIf="activeChange | async" id="toggle-content">
@@ -142,7 +142,7 @@ describe('components.toggle', () => {
         });
     });
 
-    describe('CsToggleActive', () => {
+    describe('CsOnOffToggle', () => {
         let fixture: ComponentFixture<CsToggleActiveHost>;
 
         beforeEach(async (done) => {
@@ -150,7 +150,7 @@ describe('components.toggle', () => {
                 imports: [CommonModule],
                 declarations: [
                     CsToggle,
-                    CsToggleActive,
+                    CsOnOffToggle,
                     CsToggleActiveHost
                 ]
             });
@@ -160,7 +160,7 @@ describe('components.toggle', () => {
         });
 
         function activate(): DebugElement {
-            let button = fixture.debugElement.query(By.directive(CsToggleActive));
+            let button = fixture.debugElement.query(By.directive(CsOnOffToggle));
             button.triggerEventHandler('click', {});
             return button
         }

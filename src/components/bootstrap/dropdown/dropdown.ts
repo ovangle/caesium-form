@@ -6,14 +6,12 @@ import 'rxjs/add/operator/first';
 import {Set} from 'immutable';
 
 import {
-    Directive,
-    Component, Input, Output, EventEmitter, Host, ViewEncapsulation, ChangeDetectionStrategy,
-    Renderer, ElementRef, ChangeDetectorRef
+    Component, Input,
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    ElementRef,
  } from '@angular/core';
-import {CommonModule} from '@angular/common';
 
-
-import {isDefined} from 'caesium-core/lang';
+import {CsToggle, CsToggleOption} from '../../toggle/module';
 
 // TODO: Should be in caesium-core.
 export function isPresent(value: boolean | "" | null): boolean {
@@ -29,7 +27,8 @@ export type CsDropdownState = 'closed' | 'open';
     <style>
     :host { display: block; } 
     </style> 
-    <ng-content select="[csDropdownToggle]"></ng-content>
+    
+    <ng-content select="button.dropdown-toggle"></ng-content>
     
     <div class="dropdown-menu"
         [ngClass]="{
@@ -41,32 +40,29 @@ export type CsDropdownState = 'closed' | 'open';
     `,
     host: {
         '[class.dropdown]': 'true',
-        '[class.open]': '_open'
+        '[class.open]': 'isOpen'
     },
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDropdown {
 
-    @Input('open') _open: boolean;
-    @Output() stateChange = new EventEmitter<CsDropdownState>();
+    @Input('open') isOpen: boolean = false;
 
     constructor(
         private element: ElementRef,
         private _cd: ChangeDetectorRef
-    ) {}
+    ) { }
 
     open(): void{
-        if (!this._open) {
-            this._open = true;
-            this.stateChange.emit('open');
+        if (!this.isOpen) {
+            this.isOpen = true;
             this._cd.markForCheck();
         }
     }
 
     close(): void {
-        if (this._open) {
-            this.stateChange.emit('closed');
-            this._open = false;
+        if (this.isOpen) {
+            this.isOpen = false;
             this._cd.markForCheck();
         }
     }
@@ -77,48 +73,16 @@ export class CsDropdown {
             this.close();
     }
 
-    toggle(): void {
-        return this._open ? this.close(): this.open();
+    toggle() {
+        if (this.isOpen) {
+            this.close()
+        } else {
+            this.open();
+        }
     }
+
 
     get _classes() {
         return Set(this.element.nativeElement.classList);
     }
 }
-
-export type ToggleEventType = 'click';
-
-@Directive({
-    selector: '[csDropdownToggle]',
-    host: {
-        '[class.dropdown-toggle]': 'true',
-        '(click)': 'click($event)'
-    }
-})
-export class CsDropdownToggle {
-    @Input('csDropdownToggle') _eventType: string;
-
-    private _initMousePosition: {x: number, y: number};
-
-    constructor(
-        @Host() private dropdown: CsDropdown,
-        private renderer: Renderer
-    ) {}
-
-    get eventType(): ToggleEventType {
-        if (!isDefined(this._eventType) || this._eventType === "") {
-            return 'click';
-        }
-        return <ToggleEventType>this._eventType;
-    }
-
-
-    private click(event: MouseEvent) {
-        if (this.eventType === 'click') {
-            this.dropdown.toggle();
-        }
-    }
-
-}
-
-

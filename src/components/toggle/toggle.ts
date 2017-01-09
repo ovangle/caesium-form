@@ -1,8 +1,6 @@
 import {
     Directive, Input, Output, EventEmitter,
     OnInit, AfterViewInit,
-    ElementRef, Renderer
-
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
@@ -67,7 +65,6 @@ export class CsToggle implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        console.log('After view init');
         // Run this after initializing the view, so that any attached async pipes
         // are already initialized before emitting the first active option
         if (!isBlank(this._currentActive)) {
@@ -121,42 +118,6 @@ export class CsSimpleToggleOption implements CsToggleOption, OnInit {
 
     ngOnInit() {
         this.toggle.initOption(this);
-    }
-}
-
-@Directive({
-    selector: 'button[csToggleActive]',
-    host: {
-        '(click)': '_onClick($event)',
-        '[class.active]': 'active'
-    }
-})
-export class CsToggleActive implements CsToggleOption {
-    value = true;
-
-    @Input('csToggleActive') active: boolean;
-    private _onActivate: Function;
-
-    constructor(private toggle: CsToggle) {}
-
-    ngOnInit() {
-        this.toggle.initOption(this);
-    }
-
-    writeActive(active: boolean) {
-        this.active = active;
-    }
-
-    registerOnActivate(fn: (option: CsToggleOption) => void) {
-        this._onActivate = fn;
-    }
-
-    private _onClick(event: MouseEvent) {
-        this.active = !this.active;
-        if (this._onActivate) {
-            this._onActivate(this);
-        }
-        return false;
     }
 }
 

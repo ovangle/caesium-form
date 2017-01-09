@@ -13,12 +13,10 @@
     The children of a toggle which conform to the toggleOption interface can be used to activate the value of
     the toggle.
 
-- Added `CsAnchorToggleOption`.
+- Added `CsSimpleToggleOption`.
     An implementation of `CsToggleOption` which takes it's value from the `href` attribute of an `<a>` element and is
     activated when the anchor element is clicked
 
-- Added `CsButtonToggleOption`.
-    An implementation of `CsToggleOption` which is activated whenever the given button is clicked.
 
 #### phone
 
@@ -61,11 +59,14 @@
 
 ### Breaking changes
 
-#### bootstrap.moda
+#### bootstrap.modal
     - Renamed `state` o `displayState` and `stateChange` to `displayStateChange` on `CsModalOutlet`.
 
+#### bootstrap.dropdown
+    - Removed dedicated `<cs-dropdown-menu>` component, deferring work to `cs-toggle`
+
 #### icon
-- renamed `IconModule` to `CsIconModule` to match naming schema used elsewhere in project
+    - renamed `IconModule` to `CsIconModule` to match naming schema used elsewhere in project
 
 ## 0.0.1
 

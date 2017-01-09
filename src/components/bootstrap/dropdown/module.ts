@@ -1,24 +1,18 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {CsDropdown, CsDropdownToggle} from './dropdown';
-import {CsDropdownMenu, CsMenuAction} from './dropdown-menu';
+import {CsDropdown} from './dropdown';
+import {CsToggleModule} from '../../toggle/module';
 
-export {CsDropdown, CsDropdownToggle, CsDropdownMenu, CsMenuAction};
+export {CsDropdown};
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, CsToggleModule],
     declarations: [
-        CsDropdown,
-        CsDropdownToggle,
-        CsDropdownMenu,
-        CsMenuAction
+        CsDropdown
     ],
     exports: [
-        CsDropdown,
-        CsDropdownToggle,
-        CsDropdownMenu,
-        CsMenuAction
+        CsDropdown
     ]
 })
 export class CsDropdownModule{ }
