@@ -245,7 +245,7 @@ describe('components.bootstrap.modal.modal-outlet', () => {
             });
             await new Promise(window.setTimeout);
             done();
-        });
+        }, 2000);
 
         it('if options.backdrop is set, should dismiss the modal when clicking on the backdrop', async (done) => {
             let t1 = new Date().valueOf();
@@ -295,7 +295,7 @@ describe('components.bootstrap.modal.modal-outlet', () => {
             console.log('elapsed: ', t2 - t1);
 
             done();
-        }, 1500);
+        }, 2000);
     });
 });
 
