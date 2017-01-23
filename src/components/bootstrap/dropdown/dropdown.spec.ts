@@ -16,8 +16,8 @@ import {CsDropdown} from './dropdown';
     }
     </style>
     <cs-dropdown #dropdown id="hosted-dropdown"> 
-        <button class="dropdown-toggle" (click)="dropdown.toggle()">Dropdown</button>
-        <div id="dropdown-content" class="content" >
+        <button class="dropdown-trigger" (click)="dropdown.toggle()">Dropdown</button>
+        <div id="dropdown-content" class="dropdown-content" >
             Lorem ipsum dolor amet
         </div>
     </cs-dropdown>
@@ -29,9 +29,9 @@ export class DropdownHost {}
     selector: 'cs-dropdown-menu-host',
     template: `
     <cs-dropdown #dropdown [open]="true">
-        <button class="dropdown-toggle" (click)="dropdown.toggle()">Menu</button>
+        <button class="dropdown-trigger" (click)="dropdown.toggle()">Menu</button>
     
-        <div (csToggle)="appendAction($event)">
+        <div (csToggle)="appendAction($event)" class="dropdown-content">
             <div class="dropdown-header">Dropdown heading</div>
             <button class="dropdown-item" csToggleOption="actionOne">Action 1</button>
             <button class="dropdown-item" csToggleOption="actionTwo">Action 2</button>
@@ -81,7 +81,7 @@ describe('components.bootstrap.dropdown', () => {
 
             fixture = TestBed.createComponent(DropdownHost);
             dropdown = fixture.debugElement.query(By.css('#hosted-dropdown'));
-            toggle = fixture.debugElement.query(By.css('.dropdown-toggle'));
+            toggle = fixture.debugElement.query(By.css('.dropdown-trigger'));
             done();
         });
 

@@ -28,14 +28,14 @@ export type CsDropdownState = 'closed' | 'open';
     :host { display: block; } 
     </style> 
     
-    <ng-content select="button.dropdown-toggle"></ng-content>
+    <ng-content select=".dropdown-trigger"></ng-content>
     
     <div class="dropdown-menu"
         [ngClass]="{
             'dropdown-menu-right': _classes.contains('align-right'),
             'dropdown-menu-left': _classes.contains('align-left')
         }">
-        <ng-content></ng-content>
+        <ng-content select=".dropdown-content"></ng-content>
     </div> 
     `,
     host: {

@@ -4,6 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 
 import {CsDropdownModule} from './dropdown/module';
 import {CsModalModule} from './modal/module';
+
 import {CsFormGroup, CsIfInputError} from './form-group';
 
 export * from './dropdown/module';
@@ -25,7 +26,7 @@ export {CsFormGroup, CsIfInputError};
     exports: [
         CsDropdownModule,
         CsModalModule,
-        CsFormGroup
+        CsFormGroup,
     ]
 })
 export class CsBootstrapModule { }
