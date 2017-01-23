@@ -1,4 +1,5 @@
 .idea
+npm-debug.log
 .sass-cache
 *.d.ts
 node_modules/*
