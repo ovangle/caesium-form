@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
+import {ArgumentError} from 'caesium-core/exception';
 
 @Component({
     moduleId: module.id,
@@ -31,6 +32,12 @@ export class CsIcon {
     @Input() name: string;
 
     constructor(private _host: ElementRef) {}
+
+    ngOnInit() {
+        if (isBlank(this.name)) {
+            throw new ArgumentError('Icon name must be provided');
+        }
+    }
 
     get _hostClasses(): Set<string> {
         if (isBlank(this._host.nativeElement))

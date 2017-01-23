@@ -3,6 +3,7 @@ import {TestBed, async, inject, ComponentFixture} from '@angular/core/testing';
 import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
 
+import {ArgumentError} from 'caesium-core/exception';
 
 import {CsIcon} from './icon';
 
@@ -35,13 +36,17 @@ describe('components.icon', () => {
         }));
 
         it('should apply all the classes of the host element', async(() => {
-            fixture.detectChanges();
             fixture.componentInstance.name = 'phone';
             fixture.nativeElement.classList.add('fa-2x');
             fixture.detectChanges();
 
             let icon = fixture.debugElement.query(By.css('span.fa.fa-phone.fa-2x'))
         }));
+
+        it('should throw if no name is set during ngOnInit', () => {
+            expect(() => fixture.detectChanges())
+                .toThrow();
+        })
 
 
     });
