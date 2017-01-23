@@ -13,7 +13,7 @@ import {By} from '@angular/platform-browser';
 
 import {isBlank} from 'caesium-core/lang';
 
-import {CsToggle, CsToggleOption, CsOnOffToggle, CsSimpleToggleOption} from './toggle';
+import {CsToggle, CsToggleOption, CsSimpleToggleOption} from './toggle';
 
 @Component({
     selector: 'cs-toggle-host',
@@ -42,22 +42,6 @@ export class CsToggleHost {
     onActiveChange(active: string) {
         this.activeChange.emit(active);
     }
-}
-
-@Component({
-    selector: 'cs-toggle-active-host',
-    template: `
-    <div (csToggle)="activeChange.emit($event)">
-        <button csOnOffToggle [active]="true" class="btn btn-secondary">ON/OFF</button> 
-    </div>
-    
-    <div *ngIf="activeChange | async" id="toggle-content">
-        Toggled content
-    </div>
-    `
-})
-export class CsToggleActiveHost {
-    @Output() activeChange = new EventEmitter<boolean>();
 }
 
 describe('components.toggle', () => {
@@ -138,54 +122,6 @@ describe('components.toggle', () => {
             fixture.detectChanges();
             expect(content.nativeElement.innerHTML)
                 .toContain('Option B content', 'Option B should be activated');
-            done();
-        });
-    });
-
-    describe('CsOnOffToggle', () => {
-        let fixture: ComponentFixture<CsToggleActiveHost>;
-
-        beforeEach(async (done) => {
-            TestBed.configureTestingModule({
-                imports: [CommonModule],
-                declarations: [
-                    CsToggle,
-                    CsOnOffToggle,
-                    CsToggleActiveHost
-                ]
-            });
-            await TestBed.compileComponents();
-            fixture = TestBed.createComponent(CsToggleActiveHost);
-            done();
-        });
-
-        function activate(): DebugElement {
-            let button = fixture.debugElement.query(By.directive(CsOnOffToggle));
-            button.triggerEventHandler('click', {});
-            return button
-        }
-
-        it('should toggle the content', async (done) => {
-            fixture.detectChanges();
-
-            await fixture.whenStable();
-            fixture.detectChanges();
-
-            let content = fixture.debugElement.query(By.css('#toggle-content'));
-            expect(content.nativeElement.innerHTML)
-                .toContain('Toggled content', 'Should be initially active');
-
-            activate();
-            fixture.detectChanges();
-            content = fixture.debugElement.query(By.css('#toggle-content'));
-            expect(content).toBeNull('Should remove the content');
-
-            activate();
-            fixture.detectChanges();
-            content = fixture.debugElement.query(By.css('#toggle-content'));
-            expect(content.nativeElement.innerHTML)
-                .toContain('Toggled content', 'Should restore the content');
-
             done();
         });
     });
