@@ -35,7 +35,9 @@ export type CsDropdownState = 'closed' | 'open';
             'dropdown-menu-right': _classes.contains('align-right'),
             'dropdown-menu-left': _classes.contains('align-left')
         }">
-        <ng-content select=".dropdown-content"></ng-content>
+        <ng-content 
+            *ngIf="isOpen"
+            select=".dropdown-content"></ng-content>
     </div> 
     `,
     host: {
