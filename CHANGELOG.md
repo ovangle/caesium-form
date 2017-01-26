@@ -48,6 +48,12 @@
 
 - Added angular pipe for displaying enum values
 
+#### date
+
+- Added `cs-date-input` for inputing dates
+- Reexports `DatePipe` from @angular/forms
+
+
 ### Bugfixes
 
 #### bootstrap.dropdown
