@@ -55,12 +55,13 @@ export function expectIsDropdownOpen(dropdown: DebugElement, open?: boolean) {
     open = !isDefined(open) || open;
 
     let content: DebugElement = dropdown.query(By.css('#dropdown-content'));
-    expect(content).not.toBeNull('#dropdown-content should be distributed into the node');
-    expect(content.nativeElement.textContent)
-            .toMatch('Lorem ipsum dolor amet', '#dropdown-content should have existing content');
     if (open) {
+        expect(content).not.toBeNull('#dropdown-content should be distributed into the node');
+        expect(content.nativeElement.textContent)
+            .toMatch('Lorem ipsum dolor amet', '#dropdown-content should have existing content');
         expect(dropdown.nativeElement.classList).toContain('open');
     } else {
+        expect(content).toBeNull('#dropdown-content should be removed from the DOM');
         expect(dropdown.nativeElement.classList).not.toContain('open');
     }
 }
