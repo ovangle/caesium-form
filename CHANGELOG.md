@@ -53,6 +53,10 @@
 - Added `cs-date-input` for inputing dates
 - Reexports `DatePipe` from @angular/forms
 
+#### spinner
+
+- Added `<cs-spinner>` for
+
 
 ### Bugfixes
 
