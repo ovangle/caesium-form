@@ -2,7 +2,7 @@
 import {ArgumentError} from 'caesium-core/exception';
 import {EncodingException} from 'caesium-core/codec';
 
-import {PhoneLocalization, defaultPhoneL10nConfig} from '../../models/phone_number';
+import {PhoneLocalization, defaultPhoneL10nConfig} from './phone_number';
 import {CsPhonePipe} from './phone-pipe';
 
 

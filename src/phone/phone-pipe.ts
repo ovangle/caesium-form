@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {isString} from 'caesium-core/lang';
 import {ArgumentError} from 'caesium-core/exception';
 
-import {phoneCodec, PhoneNumber, PhoneLocalization} from '../../models/phone_number';
+import {phoneCodec, PhoneNumber, PhoneLocalization} from './phone_number';
 
 @Pipe({name: 'phone'})
 export class CsPhonePipe implements PipeTransform {

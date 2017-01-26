@@ -11,7 +11,7 @@ import {FormsModule, ReactiveFormsModule, NgControl} from '@angular/forms';
 import {isDefined} from 'caesium-core/lang';
 import {ArgumentError} from 'caesium-core/exception';
 
-import {PhoneNumber, PhoneLocalization, PhoneNumberType} from '../../models/phone_number';
+import {PhoneNumber, PhoneLocalization, PhoneNumberType} from './phone_number';
 import {CsIconModule} from '../icon/module';
 
 import {CsPhoneInput} from './phone-input';

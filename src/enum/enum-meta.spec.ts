@@ -21,7 +21,7 @@ export const AllowOtherEnum= new CsEnum([
     {value: 'OPTION_B', display: 'Option B'},
     {value: 'OPTION_C', display: 'Option C'},
     {value: 'OTHER', display: 'Other...', isOther: true}
-], {formatOther: (description) => `Other (${description})`});
+], {formatOther: (description: string) => `Other (${description})`});
 
 
 describe('components.enum.enum-meta', () => {

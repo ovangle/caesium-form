@@ -17,7 +17,7 @@ import {Codec} from 'caesium-core/codec';
 import {
     PhoneNumber, phoneValidator, phoneCodec, DIGIT_PLACEHOLDER,
     PhoneLocalization, PhoneNumberType
-} from '../../models/phone_number';
+} from './phone_number';
 
 /**
  * Takes raw phone strings, consisting of an unbroken string of digits
