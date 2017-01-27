@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+### Miscelaneous
+- caesium-core peer dependency restricted to versions `^0.2.3`
+
+
+
 ## 0.1.0
 ### Features
 
