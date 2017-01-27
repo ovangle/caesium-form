@@ -43,6 +43,10 @@ module.exports = function(config) {
             'node_modules/zone.js/dist/proxy.js',
             'node_modules/zone.js/dist/jasmine-patch.js',
 
+            // Bootstrap
+            'node_modules/bootstrap/dist/css/bootstrap.css',
+            'node_modules/font-awesome/css/font-awesome.css',
+
             // FontAwesome fonts
             { pattern: 'node_modules/font-awesome/fonts/*', included: false, watched: false},
             { pattern: 'node_modules/bootstrap/**/*.css', included: false, watched: false},
@@ -81,8 +85,6 @@ module.exports = function(config) {
             { pattern: srcBase + '**/*.html', included: false, watched: true },
             { pattern: srcBase + '**/*.css', included: false, watched: true },
 
-            srcBase + '/components/bootstrap/bootstrap.css',
-            srcBase + '/components/icon/font-awesome.css',
             // Paths for debugging with source maps in dev tools
             { pattern: srcBase + '**/*.ts', included: false, watched: false },
             { pattern: appBase + '**/*.js.map', included: false, watched: false },

@@ -1,6 +1,6 @@
 {
   "name": "caesium-form",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Framework for dealing with the server-client interface in caesium projects",
   "keywords": [
     "center_stage",
@@ -13,7 +13,8 @@
     "build": "tsc",
     "test": "karma start karma.conf.js",
     "test-once": "karma start karma.conf.js --single-run",
-    "clean": "python3 tools/clean"
+    "clean": "python3 tools/clean",
+    "doc": "tsc && concurrently \"tsc -w\" \"lite-server\""
   },
   "author": "Thomas Stephenson",
   "licence": "MIT",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@angular/compiler": "^2.0.0",
+    "@angular/router": "3.2.3",
     "@angular/platform-browser": "^2.0.0",
     "@angular/platform-browser-dynamic": "^2.0.0",
     "@types/reflect-metadata": "^0.0.5",
