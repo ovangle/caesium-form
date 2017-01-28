@@ -72,8 +72,6 @@ export class CsIfInputError {
         
     </div>
     `,
-    styleUrls: ['bootstrap.css'],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsFormGroup {
