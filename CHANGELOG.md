@@ -2,6 +2,10 @@
 
 ## 0.2.0
 
+### Features
+
+Support for webpack module loader
+
 ### Breaking changes
 
 #### phone
