@@ -36,7 +36,7 @@ export type ModalOutletDisplayState = 'showing' | 'shown' | 'hiding' | 'hidden';
  * Only one instance is supported at any time.
  */
 @Component({
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-modal-outlet',
     template: `
     <div class="modal-backdrop fade" 

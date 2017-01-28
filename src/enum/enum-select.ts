@@ -18,7 +18,7 @@ import {ArgumentError} from 'caesium-core/exception';
 import {CsEnum} from './enum-meta';
 
 @Component({
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-enum-select',
     template: `
     <div class="select-container">

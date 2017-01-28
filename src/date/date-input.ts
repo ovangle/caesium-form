@@ -31,7 +31,7 @@ export interface DateInputErrors {
 
 @Component({
     selector: 'cs-date-input',
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     template: `
     <cs-dropdown #dropdown class="align-right">
 

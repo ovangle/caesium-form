@@ -6,7 +6,7 @@ import {
 
 @Component({
     selector: 'cs-spinner',
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     template: `
     <div class="loader"></div>
     `,

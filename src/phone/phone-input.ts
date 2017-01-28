@@ -25,7 +25,7 @@ import {
  * phone number.
  */
 @Component({
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-phone-input',
     template: `
     <span class="input-group-addon">
