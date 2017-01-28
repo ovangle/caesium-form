@@ -1,11 +1,19 @@
 # Changelog
 
+## 0.3.0
+
+### Breaking changes
+
+#### Miscelaneous
+- No longer export `*.ts` files from project
+
+
 ## 0.2.2
 
 ### bugfixes
-#### bootstrap.modal
-
-Should not use native encapsulation or attempt to load bootstrap.css
+#### bootstrap
+- <csmodal-outlet> should not use native encapsulation or attempt to load bootstrap.css
+- <cs-form-group> should not use native encapsulation or attempt to load bootstrap.css
 
 
 ## 0.2.1
