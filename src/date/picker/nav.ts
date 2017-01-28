@@ -12,7 +12,7 @@ import {DatePickerState} from './date-picker';
 
 @Component({
     selector: 'cs-date-picker-nav',
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     template: `
     <button 
         *ngIf="pickerState === 'day'"

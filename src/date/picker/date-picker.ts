@@ -10,7 +10,7 @@ export type DatePickerState = 'day' | 'month';
 
 @Component({
     selector: 'cs-date-picker',
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     template: `
     <div class="picker-content" [ngSwitch]="_pickerState">
         <cs-date-picker-nav 

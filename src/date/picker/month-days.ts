@@ -7,7 +7,7 @@ import {
 }from '@angular/core';
 
 @Component({
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-date-picker-month-days',
     template: `
     <table> 

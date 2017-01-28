@@ -40,7 +40,7 @@ function _repeatWithAcceleration(callback: () => boolean, count?: number): Promi
 }
 
 @Component({
-    moduleId: module.id,
+    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-date-picker-month-select',
     template: `
     <div id="month-list">
