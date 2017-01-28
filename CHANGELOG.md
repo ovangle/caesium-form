@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.2
+
+### bugfixes
+#### bootstrap.modal
+
+Should not use native encapsulation or attempt to load bootstrap.css
+
+
+## 0.2.1
+
+Hotfix release, some components didn't support webpack correctly
+
 ## 0.2.0
 
 ### Features

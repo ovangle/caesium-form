@@ -68,10 +68,6 @@ export type ModalOutletDisplayState = 'showing' | 'shown' | 'hiding' | 'hidden';
         '(click)': '_onClick($event)',
 
     },
-    styleUrls: [
-        '../bootstrap.css'
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsModalOutlet implements OnInit {
