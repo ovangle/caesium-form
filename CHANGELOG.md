@@ -4,6 +4,9 @@
 
 ### Breaking changes
 
+#### bootstrap
+- Remove 'bootstrap.scss' from src/bootstrap
+
 #### Miscelaneous
 - No longer export `*.ts` files from project
 
