@@ -2,6 +2,9 @@
 
 ## 0.3.0
 
+### Bugfixes
+Export `<cs-modal-outlet>` and `<cs-modal-template>` from CsModalModule
+
 ### Breaking changes
 
 #### bootstrap

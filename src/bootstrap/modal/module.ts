@@ -19,6 +19,10 @@ export {
     ],
     providers: [
         CsModals
+    ],
+    exports: [
+        CsModalOutlet,
+        CsModalTemplate
     ]
 })
 export class CsModalModule {
