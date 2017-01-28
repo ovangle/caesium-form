@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.1.1
+## 0.2.0
+
+### Breaking changes
+
+#### phone
+PhoneModule has been renamed to CsPhoneModule to reflect naming scheme of other modules
 
 ### Miscelaneous
 - caesium-core peer dependency restricted to versions `^0.2.3`

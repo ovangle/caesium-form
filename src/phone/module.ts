@@ -25,4 +25,4 @@ export {CsPhoneInput, CsPhonePipe};
         CsPhonePipe
     ]
 })
-export class PhoneModule {}
+export class CsPhoneModule {}
