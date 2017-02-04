@@ -15,6 +15,10 @@ export {CsEnum, CsEnumSelect, CsEnumPipe};
     declarations: [
         CsEnumSelect,
         CsEnumPipe
+    ],
+    exports: [
+        CsEnumSelect,
+        CsEnumPipe
     ]
 })
 export class CsEnumModule { }
