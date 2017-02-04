@@ -2,6 +2,9 @@
 npm-debug.log
 .sass-cache
 node_modules/*
+lib/*
+bundles/*
+
 
 .webstorm-build/*
 
