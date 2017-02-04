@@ -15,5 +15,9 @@ export {CsEmailInput, CsEmailAnchor};
         CsEmailInput,
         CsEmailAnchor
     ],
+    exports: [
+        CsEmailInput,
+        CsEmailAnchor
+    ]
 })
 export class CsEmailModule { }

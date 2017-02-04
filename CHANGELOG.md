@@ -4,6 +4,7 @@
 
 ### Bugfixes
 Export `<cs-modal-outlet>` and `<cs-modal-template>` from CsModalModule
+Export `<cs-email-input>` and `<cs-email-anchor>` from CsEmailModule
 
 ### Breaking changes
 
