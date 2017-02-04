@@ -27,6 +27,7 @@ export {CsFormGroup, CsIfInputError};
         CsDropdownModule,
         CsModalModule,
         CsFormGroup,
+        CsIfInputError
     ]
 })
 export class CsBootstrapModule { }
