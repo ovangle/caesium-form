@@ -1,21 +1,7 @@
 .idea
 npm-debug.log
 .sass-cache
-*.d.ts
-*.js.map
 node_modules/*
-src/**/*.js
-src/**/*.js.map
-src/**/*.css
-src/**/*.css.map
 
-
-bootstrap.js
-date.js
-email.js
-enum.js
-icon.js
-phone.js
-spinner.js
-toggle.js
+.webstorm-build/*
 

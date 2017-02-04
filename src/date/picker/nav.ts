@@ -1,4 +1,4 @@
-import moment = require('moment');
+import moment from 'moment';
 import {Moment} from 'moment';
 
 import {
@@ -12,7 +12,7 @@ import {DatePickerState} from './date-picker';
 
 @Component({
     selector: 'cs-date-picker-nav',
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     template: `
     <button 
         *ngIf="pickerState === 'day'"
@@ -40,7 +40,7 @@ import {DatePickerState} from './date-picker';
         <cs-icon name="caret-right"></cs-icon>
     </button>
     `,
-    styleUrls: ['nav.css'],
+    styleUrls: ['nav.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerNav {

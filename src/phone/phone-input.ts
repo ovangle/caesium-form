@@ -25,8 +25,11 @@ import {
  * phone number.
  */
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     selector: 'cs-phone-input',
+    host: {
+        '[class.input-group]': 'true'
+    },
     template: `
     <span class="input-group-addon">
         <cs-icon [name]="icon"></cs-icon>
@@ -38,7 +41,7 @@ import {
            (blur)="touch.emit($event)">
     `,
     styleUrls: [
-        'phone-input.css'
+        'phone-input.scss'
     ],
     providers: [
         {

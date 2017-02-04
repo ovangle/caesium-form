@@ -11,8 +11,10 @@ Export `<cs-modal-outlet>` and `<cs-modal-template>` from CsModalModule
 - Remove 'bootstrap.scss' from src/bootstrap
 
 #### Miscelaneous
+- Classes and modules are now exported from index.d.ts and index.js located in the package root
+    Imports from `'caesium-form/*'` should now be imported from `'caesium-form'`
+-  Declare a root CaesiumFormModule which exports all the various submodules
 - No longer export `*.ts` files from project
-
 
 ## 0.2.2
 

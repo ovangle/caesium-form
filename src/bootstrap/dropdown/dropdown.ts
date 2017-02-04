@@ -21,7 +21,6 @@ export function isPresent(value: boolean | "" | null): boolean {
 export type CsDropdownState = 'closed' | 'open';
 
 @Component({
-    moduleId: typeof module.id === 'string' ? module.id : null,
     selector: 'cs-dropdown',
     template: `
     <style>

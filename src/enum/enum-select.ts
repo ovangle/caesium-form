@@ -18,7 +18,7 @@ import {ArgumentError} from 'caesium-core/exception';
 import {CsEnum} from './enum-meta';
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     selector: 'cs-enum-select',
     template: `
     <div class="select-container">
@@ -37,7 +37,7 @@ import {CsEnum} from './enum-meta';
         </div>
     </div>
     `,
-    styleUrls: ['enum-select.css'],
+    styleUrls: ['enum-select.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

@@ -6,7 +6,7 @@ import {
 
 @Component({
     selector: 'cs-spinner',
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     template: `
     <div class="loader"></div>
     `,
@@ -14,7 +14,7 @@ import {
         '[style.font-size]': 'size || \'inherit\''
     },
     styleUrls: [
-        './spinner.css'
+        './spinner.scss'
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

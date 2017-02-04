@@ -11,7 +11,7 @@ import {isBlank} from 'caesium-core/lang';
 import {ArgumentError} from 'caesium-core/exception';
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     selector: 'cs-icon',
     host: {
         '[class]': '_hostClasses.join(" ")'

@@ -1,4 +1,4 @@
-import moment = require('moment');
+import moment from 'moment';
 import {Moment} from 'moment';
 
 import {
@@ -7,7 +7,7 @@ import {
 }from '@angular/core';
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     selector: 'cs-date-picker-month-days',
     template: `
     <table> 
@@ -29,7 +29,7 @@ import {
         </tbody>
     </table>
     `,
-    styleUrls: ['month-days.css'],
+    styleUrls: ['month-days.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerMonthDays {

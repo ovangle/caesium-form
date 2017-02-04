@@ -1,4 +1,4 @@
-import moment = require('moment');
+import moment from 'moment';
 import {Moment} from 'moment';
 
 import {Component, Input, Output, EventEmitter} from '@angular/core';
@@ -10,7 +10,7 @@ export type DatePickerState = 'day' | 'month';
 
 @Component({
     selector: 'cs-date-picker',
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     template: `
     <div class="picker-content" [ngSwitch]="_pickerState">
         <cs-date-picker-nav 
@@ -30,7 +30,7 @@ export type DatePickerState = 'day' | 'month';
         </cs-date-picker-month-select>
     </div>     
     `,
-    styleUrls: ['date-picker.css']
+    styleUrls: ['date-picker.scss']
 })
 export class CsDatePicker {
     private _pickerState: DatePickerState = 'day';

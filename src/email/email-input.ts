@@ -24,7 +24,7 @@ export interface CsEmailInputErrors {
 }
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     selector: 'cs-email-input',
     template: `
     <div class="input-group">

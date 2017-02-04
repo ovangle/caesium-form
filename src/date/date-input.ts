@@ -1,5 +1,4 @@
-import {Moment} from 'moment';
-import moment = require('moment');
+import moment  from 'moment';
 
 import {
     Component, Input, Output, EventEmitter,
@@ -31,7 +30,7 @@ export interface DateInputErrors {
 
 @Component({
     selector: 'cs-date-input',
-    moduleId: typeof module.id === "string" ? module.id : null,
+    moduleId: module.id,
     template: `
     <cs-dropdown #dropdown class="align-right">
 
@@ -61,14 +60,14 @@ export interface DateInputErrors {
 
     </cs-dropdown>
     `,
-    styleUrls: ['date-input.css'],
+    styleUrls: ['date-input.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class CsDateInput {
 
     private _dateText: string;
-    private _moment: Moment;
+    private _moment: moment.Moment;
 
     @Input() disabled: boolean = false;
     @Input() required: boolean = false;
@@ -105,7 +104,7 @@ export class CsDateInput {
 
     constructor(private _cd: ChangeDetectorRef) {}
 
-    _dateSelected(moment: Moment) {
+    _dateSelected(moment: moment.Moment) {
         this._dropdown.close();
         this._moment = moment.clone();
         this._dateText = moment.format('DD/MM/YYYY');

@@ -1,4 +1,4 @@
-import moment = require('moment');
+import * as moment from 'moment';
 import {Moment} from 'moment';
 
 import {List, Range} from 'immutable';
@@ -40,8 +40,8 @@ function _repeatWithAcceleration(callback: () => boolean, count?: number): Promi
 }
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-date-picker-month-select',
+    moduleId: module.id,
     template: `
     <div id="month-list">
         <div *ngFor="let month of _displayMonths.toArray(); let i = index">
@@ -91,7 +91,7 @@ function _repeatWithAcceleration(callback: () => boolean, count?: number): Promi
        
     </div>
     `,
-    styleUrls: ['month-select.css'],
+    styleUrls: ['month-select.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerMonthSelect {

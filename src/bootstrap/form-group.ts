@@ -49,7 +49,6 @@ export class CsIfInputError {
 }
 
 @Component({
-    moduleId: typeof module.id === "string" ? module.id : null,
     selector: 'cs-form-group',
     template: `
     <div class="form-group"
