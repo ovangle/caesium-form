@@ -32,7 +32,7 @@ import {CsEnum} from './enum-meta';
         </select>
         
         <div class="other-input" *ngIf="isOtherSelected">
-            <cs-icon name="exchange"></cs-icon>
+            <cs-icon name="exchange" [fixedWidth]="true"></cs-icon>
             <ng-content select=".form-control"></ng-content>
         </div>
     </div>

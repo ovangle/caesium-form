@@ -32,7 +32,7 @@ import {
     },
     template: `
     <span class="input-group-addon">
-        <cs-icon [name]="icon"></cs-icon>
+        <cs-icon [name]="icon" [fixedWidth]="true"></cs-icon>
     </span>
     <input #input name="phone" type="tel"
            class="form-control"

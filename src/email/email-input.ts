@@ -29,7 +29,7 @@ export interface CsEmailInputErrors {
     template: `
     <div class="input-group">
         <span class="input-group-addon">
-            <cs-icon name="envelope"></cs-icon> 
+            <cs-icon name="envelope" [fixedWidth]="true"></cs-icon>
         </span>
         <input 
             #input 

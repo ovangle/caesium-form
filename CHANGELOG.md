@@ -8,6 +8,8 @@
 - `<cs-icon>` added input property for fixed width icons
 
 ### Bugfixes
+- All input icons are fixed width
+
 - Export `<cs-modal-outlet>` and `<cs-modal-template>` from CsModalModule
 - Export `<cs-email-input>` and `<cs-email-anchor>` from CsEmailModule
 - Export `<cs-enum-select>` and `CsEnumPipe` from CsEnumModule

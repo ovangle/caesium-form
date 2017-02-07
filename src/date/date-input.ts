@@ -36,7 +36,7 @@ export interface DateInputErrors {
 
         <div class="input-group dropdown-trigger">
             <span class="input-group-addon">
-                <cs-icon name="calendar"></cs-icon>
+                <cs-icon name="calendar" [fixedWidth]="true"></cs-icon>
             </span>
             
             <input type="text" 
