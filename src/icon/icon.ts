@@ -13,9 +13,6 @@ import {ArgumentError} from 'caesium-core/exception';
 @Component({
     moduleId: module.id,
     selector: 'cs-icon',
-    host: {
-        '[class]': '_hostClasses.join(" ")'
-    },
     template: ` 
     <style>
         :host {
@@ -41,9 +38,9 @@ export class CsIcon {
     }
 
     get iconClasses(): Set<string> {
-        let s = Set.of('fa', `fa-${this.name}`)
+        let s = Set.of('fa', `fa-${this.name}`);
         if (this.fixedWidth) {
-            s.add('fa-fw');
+            s = s.add('fa-fw');
         }
         return s;
     }
