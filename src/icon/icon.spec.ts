@@ -35,18 +35,21 @@ describe('components.icon', () => {
             expect(icon).not.toBeNull('should display the icon');
         }));
 
-        it('should apply all the classes of the host element', async(() => {
-            fixture.componentInstance.name = 'phone';
-            fixture.nativeElement.classList.add('fa-2x');
+        it('should display an item fixed width', () => {
+            fixture.componentInstance.name = 'save';
+            fixture.componentInstance.fixedWidth = true;
             fixture.detectChanges();
 
-            let icon = fixture.debugElement.query(By.css('span.fa.fa-phone.fa-2x'))
-        }));
+            expect(fixture.componentInstance.iconClasses.toArray())
+                .toEqual(['fa', 'fa-save', 'fa-fw']);
+            let icon = fixture.debugElement.query(By.css('span.fa.fa-save.fa-fw'));
+            expect(icon).not.toBeNull('should display a fixed width icon');
+        })
 
         it('should throw if no name is set during ngOnInit', () => {
             expect(() => fixture.detectChanges())
                 .toThrow();
-        })
+        });
 
 
     });

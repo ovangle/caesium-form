@@ -2,6 +2,11 @@
 
 ## 0.3.0
 
+### Features
+
+#### icon
+- `<cs-icon>` added input property for fixed width icons
+
 ### Bugfixes
 - Export `<cs-modal-outlet>` and `<cs-modal-template>` from CsModalModule
 - Export `<cs-email-input>` and `<cs-email-anchor>` from CsEmailModule
@@ -9,6 +14,9 @@
 - Export `[csIfInputError]` directive from CsBootstrapModule
 
 ### Breaking changes
+
+#### icon
+- `<cs-icon>` no longer applies classes set on the host elemen
 
 #### bootstrap
 - Remove 'bootstrap.scss' from src/bootstrap

@@ -30,6 +30,7 @@ import {ArgumentError} from 'caesium-core/exception';
 })
 export class CsIcon {
     @Input() name: string;
+    @Input() fixedWidth: boolean;
 
     constructor(private _host: ElementRef) {}
 
@@ -39,15 +40,12 @@ export class CsIcon {
         }
     }
 
-    get _hostClasses(): Set<string> {
-        if (isBlank(this._host.nativeElement))
-            return Set<string>();
-        return Set<string>(this._host.nativeElement.classList);
-    }
-
     get iconClasses(): Set<string> {
-        return this._hostClasses
-            .union(Set.of('fa', `fa-${this.name}`));
+        let s = Set.of('fa', `fa-${this.name}`)
+        if (this.fixedWidth) {
+            s.add('fa-fw');
+        }
+        return s;
     }
 }
 
