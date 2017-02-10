@@ -3,12 +3,12 @@ import {CommonModule} from '@angular/common';
 import {NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 import {CsIconModule} from '../icon/module';
 
-import {PhoneLocalization} from './phone_number';
+import {PhoneLocalization, phoneValidator} from './phone_number';
 
 import {CsPhoneInput, PhoneInputControlValueAccessor} from './phone-input';
 import {CsPhonePipe} from './phone-pipe';
 
-export {CsPhoneInput, CsPhonePipe};
+export {CsPhoneInput, CsPhonePipe, phoneValidator};
 
 @NgModule({
     imports: [CommonModule, CsIconModule, ReactiveFormsModule],
