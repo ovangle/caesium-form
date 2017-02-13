@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -11,8 +11,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noEmit": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": ".webstorm-build"
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules",

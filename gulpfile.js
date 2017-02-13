@@ -12,7 +12,9 @@ var rollup = require('gulp-better-rollup');
 var sass = require('gulp-sass');
 var ts = require('gulp-typescript');
 
-var tsProject = ts.createProject('./tsconfig.json');
+var tsProject = ts.createProject('./tsconfig.json', {
+  module: 'es2015'
+});
 
 gulp.task('clean:spec', ['build:scripts'], function () {
   return series([
@@ -44,10 +46,8 @@ gulp.task('build:scripts', ['build:styles'], function () {
       removeModuleId: true,
       styleProcessor: function (filePath, ext, file, cb) {
         relPath = path.relative(process.cwd(), filePath)
-          .replace('src', 'lib')
-          .replace('.scss', '.css');
-        let content = fs.readFileSync(relPath);
-        cb(null, content);
+          .replace('src', 'lib');
+        fs.readFile(relPath, cb);
       }
     }))
     .pipe(tsProject())

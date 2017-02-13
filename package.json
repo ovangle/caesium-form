@@ -61,6 +61,7 @@
     "merge2": "^1.0.3",
     "protractor": "4.0.9",
     "rimraf": "^2.5.4",
+    "rollup": "^0.41.0",
     "rollup-plugin-commonjs": "^7.0.0",
     "series": "^0.3.3",
     "string-replace-loader": "^1.0.5",
