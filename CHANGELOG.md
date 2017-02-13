@@ -25,6 +25,10 @@
 - Remove CsIfInputError directive
 - Remove 'bootstrap.scss' from src/bootstrap
 
+#### Peer dependencies
+- moment
+  Moment library requires at moment "^2.17.0"
+
 #### Miscelaneous
 - Classes and modules are now exported from index.d.ts and index.js located in the package root
     Imports from `'caesium-form/*'` should now be imported from `'caesium-form'`
