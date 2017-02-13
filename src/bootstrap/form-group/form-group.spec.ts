@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
-import {CsFormGroup, CsIfInputError} from './form-group';
+import {CsFormGroup} from './form-group';
 
 
 @Component({
@@ -26,7 +26,7 @@ import {CsFormGroup, CsIfInputError} from './form-group';
         
         <cs-form-group id="static-form-group" class="row">
             <label>Static form group</label>
-            <p class="form-control-static mb-0">Input value</p>
+        <p class="form-control-static mb-0">Input value</p>
         </cs-form-group>
         
         <cs-form-group id="disabled-form-group" class="row">
@@ -75,7 +75,7 @@ describe('components.bootstrap.form-group', () => {
         beforeEach(async(() => {
             TestBed.configureTestingModule({
                 imports: [CommonModule, FormsModule],
-                declarations: [CsFormGroup, CsIfInputError, FormGroupHost]
+                declarations: [CsFormGroup, FormGroupHost]
             }).compileComponents();
         }));
 
@@ -146,56 +146,5 @@ describe('components.bootstrap.form-group', () => {
                 expect(helpBlock.textContent).toMatch('A value is required');
             });
         }));
-    });
-
-
-    describe('HelpBlock', () => {
-        @Component({
-            selector: 'help-block-host',
-            template: `<div *csIfInputError="'errorKey'">Help text</div>`
-        })
-        class HelpBlockHost {
-            @ViewChildren(CsIfInputError) helpBlocks: QueryList<CsIfInputError>;
-        }
-
-        beforeEach(async(() => {
-            TestBed.configureTestingModule({
-                declarations: [CsIfInputError, HelpBlockHost]
-            }).compileComponents();
-        }));
-
-        let fixture: ComponentFixture<HelpBlockHost>;
-
-        beforeEach(() => {
-            fixture = TestBed.createComponent(HelpBlockHost);
-        });
-
-        it('should have a reference to all contained error blocks', () => {
-            fixture.detectChanges();
-            expect(fixture.componentInstance.helpBlocks.length)
-                .toBe(1);
-            expect(fixture.componentInstance.helpBlocks.first.errorKey).toEqual('errorKey');
-        });
-
-
-        it('should display help iff control has the specified error', () => {
-            fixture.detectChanges();
-            let helpBlock = fixture.componentInstance.helpBlocks.first;
-
-            helpBlock.displayHelp(<any>{
-                valid: false,
-                errors: {errorKey: true}
-            });
-
-            fixture.detectChanges();
-            expect(fixture.nativeElement.innerHTML).toMatch('Help text');
-
-            helpBlock.displayHelp(<any>{
-                valid: false,
-                errors: {notTheErrorKey: true}
-            });
-            fixture.detectChanges();
-            expect(fixture.nativeElement.innerHTML).not.toMatch('Help text');
-        });
     });
 });

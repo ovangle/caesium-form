@@ -5,11 +5,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CsDropdownModule} from './dropdown/module';
 import {CsModalModule} from './modal/module';
 
-import {CsFormGroup, CsIfInputError} from './form-group';
+import {CsFormGroup} from './form-group/form-group';
 
 export * from './dropdown/module';
 export * from './modal/module';
-export {CsFormGroup, CsIfInputError};
+export {CsFormGroup};
 
 
 @NgModule({
@@ -20,14 +20,12 @@ export {CsFormGroup, CsIfInputError};
         CsDropdownModule
     ],
     declarations: [
-        CsIfInputError,
         CsFormGroup
     ],
     exports: [
         CsDropdownModule,
         CsModalModule,
         CsFormGroup,
-        CsIfInputError
     ]
 })
 export class CsBootstrapModule { }

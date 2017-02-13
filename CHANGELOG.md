@@ -21,6 +21,8 @@
 - `<cs-icon>` no longer applies classes set on the host elemen
 
 #### bootstrap
+- Rewrite CsFormGroup component
+- Remove CsIfInputError directive
 - Remove 'bootstrap.scss' from src/bootstrap
 
 #### Miscelaneous

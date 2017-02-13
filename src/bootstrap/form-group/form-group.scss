@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.error-container {
+  visibility: hidden;
+}
+
+.has-success > .error-container,
+.has-warning > .error-container,
+.has-danger > .error-container {
+  visibility: visible;
+}
