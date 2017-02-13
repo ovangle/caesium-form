@@ -5,6 +5,17 @@ node_modules/*
 lib/*
 bundles/*
 
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.css
+src/**/*.css.map
+
+doc/**/*.js
+doc/**/*.js.map
+doc/**/*.d.ts
+doc/**/*.css
+doc/**/*.css.map
 
 .webstorm-build/*
 
