@@ -12,8 +12,8 @@ import {
 } from '@angular/core'
 import {NgControl} from '@angular/forms';
 
-import {isDefined, isBlank} from '../../../../caesium-core/lang';
-import {ArgumentError} from '../../../../caesium-core/exception';
+import {isDefined, isBlank} from 'caesium-core/lang';
+import {ArgumentError} from 'caesium-core/exception';
 
 @Component({
     selector: 'cs-form-group',
