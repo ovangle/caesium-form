@@ -1,14 +1,5 @@
 @import 'bootstrap/scss/_variables';
 
-$date-picker-nav-bg-color: lightblue;
-
-cs-nav {
-  background-color: $date-picker-nav-bg-color;
-  position: relative;
-  width: 8em;
-  padding: 0.2em;
-}
-
 cs-date-picker-nav {
   margin-bottom: 0.25em;
 }
@@ -18,7 +9,6 @@ cs-date-picker-nav {
   bottom: 0.2em;
   right: 0.2em;
   white-space: nowrap;
-
 }
 
 a.year-selector {

@@ -91,7 +91,7 @@ function _repeatWithAcceleration(callback: () => boolean, count?: number): Promi
        
     </div>
     `,
-    styleUrls: ['month-select.scss'],
+    styleUrls: ['month-select.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerMonthSelect {

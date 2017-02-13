@@ -30,7 +30,7 @@ export type DatePickerState = 'day' | 'month';
         </cs-date-picker-month-select>
     </div>     
     `,
-    styleUrls: ['date-picker.scss']
+    styleUrls: ['date-picker.css']
 })
 export class CsDatePicker {
     private _pickerState: DatePickerState = 'day';

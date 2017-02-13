@@ -60,7 +60,7 @@ export interface DateInputErrors {
 
     </cs-dropdown>
     `,
-    styleUrls: ['date-input.scss'],
+    styleUrls: ['date-input.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })

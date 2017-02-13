@@ -37,7 +37,7 @@ import {CsEnum} from './enum-meta';
         </div>
     </div>
     `,
-    styleUrls: ['enum-select.scss'],
+    styleUrls: ['enum-select.css'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

@@ -40,7 +40,7 @@ import {DatePickerState} from './date-picker';
         <cs-icon name="caret-right"></cs-icon>
     </button>
     `,
-    styleUrls: ['nav.scss'],
+    styleUrls: ['nav.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerNav {

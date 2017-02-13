@@ -14,7 +14,7 @@ import {
         '[style.font-size]': 'size || \'inherit\''
     },
     styleUrls: [
-        './spinner.scss'
+        './spinner.css'
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

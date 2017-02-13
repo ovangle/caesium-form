@@ -29,7 +29,7 @@ import {
         </tbody>
     </table>
     `,
-    styleUrls: ['month-days.scss'],
+    styleUrls: ['month-days.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsDatePickerMonthDays {
