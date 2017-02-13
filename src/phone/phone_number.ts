@@ -26,6 +26,11 @@ export function phoneValidator(format: string) {
    let numExpectedDigits = phoneDigits(format);
 
     return function (phoneNumber: string): PhoneFormatErrors {
+        if (phoneNumber === '') {
+            // Empty input should be valid
+            return null;
+        }
+
         let numActualDigits = Array.from(phoneNumber)
             .filter(char => isDigit(char))
             .length;
