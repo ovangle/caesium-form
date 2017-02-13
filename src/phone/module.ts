@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 import {CsIconModule} from '../icon/module';
 
-import {PhoneLocalization, phoneValidator} from './phone_number';
+import {phoneValidator} from './phone_number';
 
 import {CsPhoneInput, PhoneInputControlValueAccessor} from './phone-input';
 import {CsPhonePipe} from './phone-pipe';
@@ -17,7 +17,6 @@ export {CsPhoneInput, CsPhonePipe, phoneValidator};
         CsPhonePipe
     ],
     providers: [
-        PhoneLocalization,
         {provide: NG_VALUE_ACCESSOR, useClass: PhoneInputControlValueAccessor, multi: true}
     ],
     exports: [

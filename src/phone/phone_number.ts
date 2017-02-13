@@ -1,3 +1,4 @@
+
 import {List, Map} from 'immutable';
 
 import {Inject, Injectable, Optional, OpaqueToken} from '@angular/core';
@@ -8,182 +9,68 @@ import {EncodingException, Codec} from 'caesium-core/codec';
 
 export const DIGIT_PLACEHOLDER = 'd';
 
-export type PhoneNumber = string;
-export type PhoneNumberType = 'home' | 'mobile';
-
-// TODO: move this to caesium-model
-export type ValidatorFn<T> = (input: T) => {[err: string]: any};
+export type PhoneNumberType = 'phone' | 'mobile';
 
 export interface PhoneFormatErrors {
     tooShort?: boolean;
     tooLong?: boolean;
-    // The index, expected value and actual value of the first invalid character in the string
-    // If the expected value is DIGIT then the value is expected to be a digit.
-    invalidCharacter?: [number, string, string];
+    syntaxError?: boolean;
+
 }
 
+function isDigit(char: string) {
+    return !Number.isNaN(Number.parseInt(char));
+}
 
-/**
- * Returns a validator for the given localised phone number format string.
- *
- * @param format
- * @return
- * A validator function producing a PhoneNumberFormatErrors errors object
- * of
- */
-export function phoneValidator(format: string): ValidatorFn<PhoneNumber> {
-    return (phoneNumber: PhoneNumber) => {
+export function phoneValidator(format: string) {
+   let numExpectedDigits = phoneDigits(format);
 
-        if (phoneNumber.length > format.length) {
-            return {tooLong: true};
-        }
+    return function (phoneNumber: string): PhoneFormatErrors {
+        let numActualDigits = Array.from(phoneNumber)
+            .filter(char => isDigit(char))
+            .length;
 
-        for (let fmtIndex = 0; fmtIndex < format.length; fmtIndex++) {
-            let fmtChar = format.charAt(fmtIndex);
-            if (fmtIndex >= phoneNumber.length) {
-                return {tooShort: true};
-            }
-            let srcChar = phoneNumber.charAt(fmtIndex);
-            if (fmtChar === DIGIT_PLACEHOLDER && !(/\d/.test(srcChar))) {
-                return {
-                    invalidCharacter: [fmtIndex, 'a digit', srcChar]
-                };
-            }
-            if (fmtChar !== DIGIT_PLACEHOLDER && fmtChar !== srcChar) {
-                return {
-                    invalidCharacter: [fmtIndex, `'${fmtChar}'`, srcChar]
-                };
-            }
-        }
-        return undefined;
+        if (numActualDigits !== phoneNumber.length)
+            return {syntaxError: true};
+
+        if (numActualDigits > numExpectedDigits)
+            return {tooShort: true};
+        if (numActualDigits < numExpectedDigits)
+            return {tooShort: true};
+
+        return null;
     }
 }
 
+export function phoneDigits(format: string): number {
+    return Array.from(format)
+        .filter(char => char === DIGIT_PLACEHOLDER)
+        .length;
+}
 
-/**
- * A codec for turning a string into a PhoneNumber.
- *
- * The format string is used to determine the structure of the phone number.
- * It is parsed in the following way
- * - A 'd' is replaced by the next digit in the raw phone number
- * - A digit is e
- *
- * Raises an EncodingException if:
- *  - There is a non-numeric character in the source input
- *  - There are more digits in the source than replacement char
- *
- *
- * e.g.
- * The format string 'dddd ddd ddd' would, given the input '0421234234' produce
- * the phone number 0421 234 234
- *
- * @param format
- * @param options
- * Should encoding exceptions be raised by the codec? Default is true
- * @returns {any}
- *
- */
-export function phoneCodec(format: string, options?: {raiseExceptions: boolean}): Codec<PhoneNumber,string> {
-    let raiseExceptions = !isDefined(options) || options.raiseExceptions;
-    function _try(fn: () => void) {
-        if (raiseExceptions) {
-            fn();
+export function phoneFormatter(format: string): (phone: string) => string {
+    return (phone: string) => {
+        if (phone === '') {
+            // Add leading format characters _unless_ the input is empty
+            return '';
         }
-    }
 
-    // The indexes of all the digits which are to be replaced.
-    let formatDigits = List(format.split(''))
-        .flatMap((fmtChar, fmtIndex) => fmtChar === DIGIT_PLACEHOLDER ? [fmtIndex]: []);
+        let srcIndex = 0, formatted = '';
+        for (let fmtIndex=0; fmtIndex<format.length; fmtIndex++) {
+            let fmtChar = format[fmtIndex];
 
-    let numFormatDigits = formatDigits.count();
-
-    return {
-        encode(source: PhoneNumber) {
-            _try(() => {
-                let errs = phoneValidator(format)(source);
-                if (isDefined(errs)) {
-                    throw new EncodingException(
-                        'Invalid phone number: ' + JSON.stringify(errs)
-                    );
+            if (fmtChar === DIGIT_PLACEHOLDER) {
+                if (srcIndex >= phone.length) {
+                    return formatted;
                 }
-            });
-            return source.replace(/\D/g, '')
-                .substring(0, numFormatDigits);
-
-        },
-        decode(source: string): PhoneNumber {
-            _try(() => {
-                if (!/^\d*$/.test(source)) {
-                    throw new EncodingException('Invalid character in raw phone number.');
-                }
-
-                if (source.length !== numFormatDigits) {
-                    throw new EncodingException(
-                        `Unexpected number of digits in raw phone number, expected ${numFormatDigits}`
-                    );
-                }
-            });
-
-            let fmtIndex = 0, sourceIndex = 0;
-            let fmtChar: string;
-            let formatted = '';
-
-            for(; fmtIndex < format.length; fmtIndex++) {
-                if (sourceIndex >= source.length)
-                    break;
-
-                fmtChar = format.charAt(fmtIndex);
-                let sourceChar = source.charAt(sourceIndex);
-
-                if (fmtChar === DIGIT_PLACEHOLDER) {
-                    if (!/\d/.test(sourceChar))
-                        break;
-                    formatted += sourceChar;
-                    sourceIndex++;
-                } else {
-                    formatted += fmtChar;
-                }
+                formatted += phone[srcIndex];
+                srcIndex++;
+            } else {
+                formatted += fmtChar;
             }
-
-            return formatted;
         }
-    };
-}
 
-//FIXME (typescript 2.1.?) : export type PhoneL10NConfig = { [K in PhoneNumberType]: string };
-export type PhoneL10nConfig = {
-    home: string;
-    mobile: string;
-}
-
-
-export const PHONE_L10N_CONFIG = new OpaqueToken('cs_phone_localization_region');
-export const defaultPhoneL10nConfig: PhoneL10nConfig = {
-    home: '(dd) dddd dddd',
-    mobile: 'dddd ddd ddd'
-};
-
-@Injectable()
-export class PhoneLocalization {
-    constructor(
-        @Optional() @Inject(PHONE_L10N_CONFIG) private config: PhoneL10nConfig
-    ) {
-        if (isBlank(config))
-            this.config = defaultPhoneL10nConfig;
-    }
-
-
-    getFormat(phoneType?: PhoneNumberType): string {
-        if (!isDefined(phoneType))
-            return this.config.home;
-
-        switch (phoneType) {
-            case 'home':
-                return this.config.home;
-            case 'mobile':
-                return this.config.mobile;
-            default:
-                throw new ArgumentError(`Invalid type for phone number: '${phoneType}'`);
-        }
+        return formatted;
     }
 }
+

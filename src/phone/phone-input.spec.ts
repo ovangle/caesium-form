@@ -8,30 +8,9 @@ import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule, NgControl} from '@angular/forms';
 
-import {isDefined} from 'caesium-core/lang';
-import {ArgumentError} from 'caesium-core/exception';
-
-import {PhoneNumber, PhoneLocalization, PhoneNumberType} from './phone_number';
 import {CsIconModule} from '../icon/module';
 
 import {CsPhoneInput} from './phone-input';
-
-class MockPhoneLocalization {
-    getFormat(phoneType?: PhoneNumberType): string {
-        if (!isDefined(phoneType))
-            return 'ddddddddddd';
-        switch (phoneType) {
-            case 'home':
-                return '(dd) dddd dddd';
-            case 'mobile':
-                return 'dddd ddd ddd';
-            default:
-                throw new ArgumentError(`Invalid type for phone number: '${phoneType}'`);
-        }
-    }
-}
-
-
 
 describe('components.phone.phone-input', () => {
     describe('CsPhoneInput', () => {
@@ -42,13 +21,10 @@ describe('components.phone.phone-input', () => {
             await TestBed.configureTestingModule({
                 imports: [FormsModule, ReactiveFormsModule, CsIconModule],
                 declarations: [CsPhoneInput],
-                providers: [
-                    {provide: PhoneLocalization, useClass: MockPhoneLocalization}
-                ]
             }).compileComponents();
 
             fixture = TestBed.createComponent(CsPhoneInput);
-            fixture.componentInstance.type = 'home';
+            fixture.componentInstance.icon = 'phone';
             done();
         });
 
@@ -114,7 +90,7 @@ describe('components.phone.phone-input', () => {
 
             expect(input.nativeElement.value).toEqual('(02) 4149 1231');
 
-            fixture.componentInstance.type = 'mobile';
+            fixture.componentInstance.icon = 'mobile';
             fixture.detectChanges();
             expect(input.nativeElement.value).toEqual('0241 491 231');
         });
@@ -149,9 +125,6 @@ describe('components.phone.phone-input', () => {
                     CsPhoneInput,
                     PhoneInputHost
                 ],
-                providers: [
-                    {provide: PhoneLocalization, useClass: MockPhoneLocalization}
-                ]
             }).compileComponents();
 
             fixture = TestBed.createComponent(PhoneInputHost);

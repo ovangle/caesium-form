@@ -20,6 +20,11 @@
 #### icon
 - `<cs-icon>` no longer applies classes set on the host elemen
 
+#### phone
+- `<cs-phone-input>` rewritten from scratch
+- Requires `format` and `icon` inputs, rather than `type` input
+- CsPhoneModule no longer exports a `PhoneLocalization` service
+
 #### bootstrap
 - Rewrite CsFormGroup component
 - Remove CsIfInputError directive

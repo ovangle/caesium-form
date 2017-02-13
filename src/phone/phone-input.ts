@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import {
     Renderer,
     forwardRef, Injectable,
@@ -7,7 +8,6 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-    FormControl, ValidatorFn, Validators, AbstractControl,
     ControlValueAccessor, NG_VALUE_ACCESSOR
 } from '@angular/forms';
 
@@ -15,8 +15,7 @@ import {isBlank} from 'caesium-core/lang';
 import {Codec} from 'caesium-core/codec';
 
 import {
-    PhoneNumber, phoneValidator, phoneCodec, DIGIT_PLACEHOLDER,
-    PhoneLocalization, PhoneNumberType
+    PhoneNumberType, phoneValidator, phoneFormatter, phoneDigits
 } from './phone_number';
 
 /**
@@ -36,12 +35,12 @@ import {
     </span>
     <input #input name="phone" type="tel"
            class="form-control"
-           [formControl]="_control"
-           (keypress)="_phoneNumberChanged()"
-           (blur)="touch.emit($event)">
+           (keydown)="_keyDown($event)"
+           (blur)="touch.emit($event)"
+           [attr.disabled]="disabled">
     `,
     styleUrls: [
-        'phone-input.scss'
+        'phone-input.css'
     ],
     providers: [
         {
@@ -53,79 +52,83 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CsPhoneInput {
-    /**
-     * Empty values for
-     */
-    @Input() required: boolean;
-
-
-    private _type: PhoneNumberType;
-    /**
-     * The name of the icon to use on the phone input.
-     * Values can be either 'phone' or 'mobile'
-     */
-    @Input()
-    get type(): PhoneNumberType { return this._type; }
-    set type(type: PhoneNumberType) {
-        this._type = type;
-        this._phoneNumberChanged();
-    }
+    @ViewChild('input') private _inputElement: ElementRef;
 
     /**
      * A stream of blur events
      */
     @Output() touch = new EventEmitter<string>();
 
-    @Input()
-    set disabled(value: any) {
-        value ? this._control.disable() : this._control.enable();
-    }
+    @Input() disabled: boolean;
+
+    private _phone: string;
 
     @Input()
-    get phone(): string { return this._codec.encode(this._control.value); }
+    get phone(): string {
+        return this._phone;
+    }
     set phone(value: string) {
-        let phone = this._codec.decode(value);
-        this._control.setValue(phone);
+        this._phone = value.replace(/\D/g, '');
     }
 
-    @Output()
-    get phoneChange(): Observable<string> {
-        return <Observable<PhoneNumber>>this._control.valueChanges
-            .map(value => this._codec.encode(value));
-    }
+    /**
+     * The name of the icon to use to represent the type of phoen number
+     *
+     * Values are either 'phone' or 'mobile';
+     */
+    @Input()
+    icon: PhoneNumberType;
+
+    @Input()
+    format: string;
+
+    @Output() phoneChange = new EventEmitter<string>();
 
     get isValid(): boolean {
-        return !isBlank(this._control) && this._control.valid;
+        return isBlank(phoneValidator(this.format)(this._phone));
     }
 
     get errors(): ({[error: string]: any} | null) {
-        return this._control.errors;
+        return phoneValidator(this.format);
     }
 
-    get icon(): string {
-        if (isBlank(this.type))
-            return 'none';
-        return this.type === 'home' ? 'phone' : 'mobile';
-    }
 
-    @ViewChild('input') private _inputElement: ElementRef;
-    private _control: FormControl;
+    constructor(private _renderer: Renderer) {}
 
-    constructor(
-        private _renderer: Renderer,
-        private l10nService: PhoneLocalization) {
-        function validate(control: AbstractControl) {
-            if (this.required) {
-                let errs = Validators.required(control);
-                if (!isBlank(errs)) return errs;
-            }
-            return phoneValidator(this.format)(control.value || '');
+    _keyDown(event: KeyboardEvent) {
+        let rawValue = this._inputElement.nativeElement.value;
+        let phoneStart = rawValue.substring(
+            0,
+            this._inputElement.nativeElement.selectionStart
+        ).replace(/\D+/g, '');
+        let phoneEnd = rawValue.substring(
+            this._inputElement.nativeElement.selectionEnd,
+            Infinity
+        ).replace(/\D+/g, '');
+
+
+        if (/\d/.test(event.key)) {
+            this._phone = this._phone + event.key;
+        } else {
+            return true;
         }
 
-        this._control = new FormControl('', validate.bind(this));
+        this._phone = this._phone.substr(0, phoneDigits(this.format));
+
+        console.log('new phone', phoneFormatter(this.format)(this._phone));
+
+        this._renderer.setElementProperty(
+            this._inputElement.nativeElement,
+            'value',
+            phoneFormatter(this.format)(this._phone)
+        );
+        this.phoneChange.emit(this._phone);
+        return false;
     }
 
+    /*
     _phoneNumberChanged() {
+
         if (this._control.disabled) {
             return true;
         }
@@ -156,14 +159,7 @@ export class CsPhoneInput {
         );
         return true;
     }
-
-    get format(): string {
-        return this.l10nService.getFormat(this.type);
-    }
-
-    private get _codec(): Codec<string,PhoneNumber> {
-        return phoneCodec(this.format, {raiseExceptions: false});
-    }
+    */
 }
 
 @Injectable()

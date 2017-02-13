@@ -2,14 +2,13 @@
 import {ArgumentError} from 'caesium-core/exception';
 import {EncodingException} from 'caesium-core/codec';
 
-import {PhoneLocalization, defaultPhoneL10nConfig} from './phone_number';
 import {CsPhonePipe} from './phone-pipe';
 
 
 describe('components.phone.phone-pipe', () => {
     describe('PhonePipe', () => {
         it('should format a phone ', () => {
-            let phonePipe = new CsPhonePipe(new PhoneLocalization(defaultPhoneL10nConfig));
+            let phonePipe = new CsPhonePipe();
 
             expect(phonePipe.transform('0231421243', 'home'))
                 .toEqual('(02) 3142 1243');
@@ -19,7 +18,7 @@ describe('components.phone.phone-pipe', () => {
         });
 
         it('should raise an exception if the phone number is invalid', () => {
-            let phonePipe = new CsPhonePipe(new PhoneLocalization(defaultPhoneL10nConfig));
+            let phonePipe = new CsPhonePipe();
 
             expect(() => phonePipe.transform('0A', 'home'))
                 .toThrow(jasmine.any(EncodingException));
