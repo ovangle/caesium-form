@@ -31,8 +31,9 @@
 - Remove 'bootstrap.scss' from src/bootstrap
 
 #### Peer dependencies
-- moment
-  Moment library requires at moment "^2.17.0"
+- moment dependency upgraded to "^2.17.0"
+- bootstrap dependency upgraded to "4.0.0-alpha.6"
+
 
 #### Miscelaneous
 - Classes and modules are now exported from index.d.ts and index.js located in the package root

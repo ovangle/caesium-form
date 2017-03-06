@@ -27,7 +27,7 @@
     "@angular/common": "^2.4.5",
     "@angular/http": "^2.4.5",
     "@angular/forms": "^2.4.5",
-    "bootstrap": "4.0.0-alpha.5",
+    "bootstrap": "4.0.0-alpha.6",
     "font-awesome": "^4.7.0"
   },
   "devDependencies": {
