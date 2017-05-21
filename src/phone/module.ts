@@ -1,27 +1,33 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CsMaskedInputModule} from '../masked-input/module';
 import {CsIconModule} from '../icon/module';
 
-import {phoneValidator} from './phone_number';
+import {CsPhoneInput, CsMobilePhoneInput} from './phone-input';
+import {CsPhonePipe, CsMobilePhonePipe} from './phone-pipe';
 
-import {CsPhoneInput, PhoneInputControlValueAccessor} from './phone-input';
-import {CsPhonePipe} from './phone-pipe';
-
-export {CsPhoneInput, CsPhonePipe, phoneValidator};
+export {CsPhoneInput, CsPhonePipe, CsMobilePhoneInput, CsMobilePhonePipe};
 
 @NgModule({
-    imports: [CommonModule, CsIconModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        CsMaskedInputModule,
+        CsIconModule
+    ],
     declarations: [
         CsPhoneInput,
-        CsPhonePipe
-    ],
-    providers: [
-        {provide: NG_VALUE_ACCESSOR, useClass: PhoneInputControlValueAccessor, multi: true}
+        CsMobilePhoneInput,
+        CsPhonePipe,
+        CsMobilePhonePipe
     ],
     exports: [
         CsPhoneInput,
-        CsPhonePipe
+        CsMobilePhoneInput,
+        CsPhonePipe,
+        CsMobilePhonePipe
     ]
 })
 export class CsPhoneModule {}
+

@@ -8,149 +8,101 @@ import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule, NgControl} from '@angular/forms';
 
+import {CsMaskedInputModule} from '../masked-input/module';
 import {CsIconModule} from '../icon/module';
 
-import {CsPhoneInput} from './phone-input';
+import {CsPhoneInput, CsMobilePhoneInput} from './phone-input';
+
+@Component({
+    selector: 'cs-phone-input-test',
+    template: `
+        <cs-phone-input #phone [(ngModel)]="phone"></cs-phone-input>
+        <cs-mobile-phone-input #mobilePhone [(ngModel)]="mobile"></cs-mobile-phone-input>
+    `
+})
+export class CsPhoneInputTest {
+    phone: string = '';
+    mobile: string = '';
+
+    @ViewChild('phone', {read: NgControl}) phoneControl: NgControl;
+    @ViewChild('mobilePhone', {read: NgControl}) mobilePhoneControl: NgControl;
+}
 
 describe('components.phone.phone-input', () => {
-    describe('CsPhoneInput', () => {
-
-        let fixture: ComponentFixture<CsPhoneInput>;
+        let fixture: ComponentFixture<CsPhoneInputTest>;
+        let phoneInputElement: DebugElement;
+        let mobilePhoneInputElement: DebugElement;
 
         beforeEach(async (done) => {
             await TestBed.configureTestingModule({
-                imports: [FormsModule, ReactiveFormsModule, CsIconModule],
-                declarations: [CsPhoneInput],
+                imports: [
+                    ReactiveFormsModule,
+                    CsMaskedInputModule,
+                    CsIconModule
+                ],
+                declarations: [
+                    CsPhoneInput,
+                    CsMobilePhoneInput,
+                    CsPhoneInputTest
+                ],
             }).compileComponents();
 
-            fixture = TestBed.createComponent(CsPhoneInput);
-            fixture.componentInstance.icon = 'phone';
+            fixture = TestBed.createComponent(CsPhoneInputTest);
+            phoneInputElement = fixture.debugElement.query(By.directive(CsPhoneInput));
+            mobilePhoneInputElement = fixture.debugElement.query(By.directive(CsMobilePhoneInput));
+
             done();
         });
 
 
-
-        it('should respond to changes in input', async (done) => {
+        it('cs-phone-input respond to changes in input', () => {
             fixture.detectChanges();
 
-            let input = fixture.debugElement.query(By.css('input[type=tel]'));
-            let phoneChange = fixture.componentInstance.phoneChange.first().toPromise();
+            let input = phoneInputElement.query(By.css('input[type=tel]'));
 
             input.nativeElement.value = '(02) 1234 5678';
             input.triggerEventHandler('input', {target: input.nativeElement});
             fixture.detectChanges();
 
-            let phone = await phoneChange;
-            expect(phone).toEqual('0212345678');
+            expect(fixture.componentInstance.phone).toEqual('021235678');
 
             fixture.componentInstance.phone = '0287654321';
             fixture.detectChanges();
 
             expect(input.nativeElement.value).toEqual('(02) 8765 4321');
-            done();
         });
 
-        it('should provide format validation of input', () => {
+        it('cs-phone-input should provide validation of the mask', () => {
             fixture.detectChanges();
-
-            fixture.componentInstance.phone = '02A';
+            fixture.componentInstance.phone = '012345';
             fixture.detectChanges();
-
-            expect(fixture.componentInstance.isValid).toBe(false);
-            expect(fixture.componentInstance.errors).toEqual({tooShort: true});
-        });
-
-        it('should reposition the caret to automatically insert format characters', () => {
-            fixture.detectChanges();
-            let input = fixture.debugElement.query(By.css('input[type=tel]'));
-            input.nativeElement.value = '0';
-            input.triggerEventHandler('keypress', {target: input.nativeElement});
-            fixture.detectChanges();
-
-            expect(input.nativeElement.value).toEqual('(0');
-            expect(input.nativeElement.selectionStart).toEqual(2);
-            expect(input.nativeElement.selectionEnd).toEqual(2);
-
-            input.nativeElement.value = '(023';
-
-            input.triggerEventHandler('keypress', {target: input.nativeElement});
-            fixture.detectChanges();
-
-            expect(input.nativeElement.value).toEqual('(02) 3');
-            expect(input.nativeElement.selectionStart).toEqual(6);
-            expect(input.nativeElement.selectionEnd).toEqual(6);
-        });
-
-        it('should format the input based on the \'type\'', () => {
-            fixture.detectChanges();
-
-            let input = fixture.debugElement.query(By.css('input[type=tel]'));
-            input.nativeElement.value = '0241491231';
-            input.triggerEventHandler('keypress', {target: input.nativeElement});
-
-            expect(input.nativeElement.value).toEqual('(02) 4149 1231');
-
-            fixture.componentInstance.icon = 'mobile';
-            fixture.detectChanges();
-            expect(input.nativeElement.value).toEqual('0241 491 231');
-        });
-    });
-
-    describe('PhoneInputValueAccessor', () => {
-        @Component({
-            selector: 'phone-input-host',
-            template: `
-                <cs-phone-input [(ngModel)]="phone" 
-                    #control="ngModel" name="test-one">
-                </cs-phone-input>
-            `
+            expect(fixture.componentInstance.phoneControl.errors).toEqual({mismatch: true});
         })
-        class PhoneInputHost {
-            @Input() phone: string;
-            @ViewChild('control') control: NgControl;
-        }
 
-        let fixture: ComponentFixture<PhoneInputHost>;
-        let phoneInput: DebugElement;
 
-        beforeEach(async (done) => {
-            await TestBed.configureTestingModule({
-                imports: [
-                    CommonModule,
-                    FormsModule,
-                    ReactiveFormsModule,
-                    CsIconModule
-                ],
-                declarations: [
-                    CsPhoneInput,
-                    PhoneInputHost
-                ],
-            }).compileComponents();
+    it('cs-mobile-phone-input respond to changes in input', () => {
+        fixture.detectChanges();
 
-            fixture = TestBed.createComponent(PhoneInputHost);
-            phoneInput = fixture.debugElement.query(By.directive(CsPhoneInput));
-            phoneInput.componentInstance.type = 'home';
-            done();
-        });
+        let input = phoneInputElement.query(By.css('input[type=tel]'));
 
-        it('should be usable with the ngModel API', async (done) => {
-            fixture.detectChanges();
-            fixture.componentInstance.phone = '1243211234';
-            fixture.detectChanges();
-            await phoneInput.componentInstance.phoneChange.first().toPromise();
+        input.nativeElement.value = '(02) 1234 5678';
+        input.triggerEventHandler('input', {target: input.nativeElement});
+        fixture.detectChanges();
 
-            expect(phoneInput.componentInstance.phone).toBe('1243211234');
+        expect(fixture.componentInstance.phone).toEqual('021235678');
 
-            let _emailInput = phoneInput.query(By.css('input[type=tel]'));
-            _emailInput.triggerEventHandler('blur', {target: _emailInput.nativeElement});
-            fixture.detectChanges();
+        fixture.componentInstance.phone = '0287654321';
+        fixture.detectChanges();
 
-            expect(fixture.componentInstance.control.touched)
-                .toBe(true);
-            done();
-        });
+        expect(input.nativeElement.value).toEqual('(02) 8765 4321');
     });
 
+    it('cs-phone-input should provide validation of the mask', () => {
+        fixture.detectChanges();
+        fixture.componentInstance.phone = '012345';
+        fixture.detectChanges();
+        expect(fixture.componentInstance.phoneControl.errors).toEqual({mismatch: true});
+    });
 });
 
 

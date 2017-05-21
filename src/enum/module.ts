@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {CsIconModule} from '../icon/module';
 
@@ -11,7 +11,11 @@ import {CsEnumSelect} from './enum-select';
 export {CsEnum, CsEnumSelect, CsEnumPipe};
 
 @NgModule({
-    imports: [CommonModule, FormsModule, CsIconModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        CsIconModule
+    ],
     declarations: [
         CsEnumSelect,
         CsEnumPipe

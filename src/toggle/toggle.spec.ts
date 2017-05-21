@@ -1,5 +1,6 @@
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/timeout';
 
 import {List} from 'immutable';
 
@@ -36,7 +37,7 @@ import {CsToggle, CsToggleOption, CsSimpleToggleOption} from './toggle';
     </div>
     `
 })
-export class CsToggleHost {
+class CsToggleHost {
     @Output() activeChange = new EventEmitter<string>();
 
     onActiveChange(active: string) {
@@ -64,18 +65,16 @@ describe('components.toggle', () => {
         });
 
         function activateOption(value: string): DebugElement {
-            let options = List(fixture.debugElement.queryAll(By.directive(CsSimpleToggleOption)))
-                .map(elem => [elem, elem.injector.get(CsSimpleToggleOption)]);
+            let options = List(fixture.debugElement.queryAll(By.directive(CsSimpleToggleOption)));
 
-            let option = options
-                .filter(option => option[1].value === value)
-                .first();
+            let valueIndex = options
+                .findIndex(option => option.componentInstance);
 
-            if (isBlank(option)) {
+            if (valueIndex < 0) {
                 throw `No option found with value '${value}'`;
             }
 
-            let optionElem = option[0];
+            let optionElem = options.get(valueIndex);
             optionElem.triggerEventHandler('click', {});
             return optionElem;
         }

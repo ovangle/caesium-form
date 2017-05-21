@@ -1,62 +1,62 @@
-import {OrderedMap} from 'immutable';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-
-import {
-    Injectable,
-    Component, Input, Output, EventEmitter,
-    ContentChild
-} from '@angular/core';
-import {
-    NG_VALUE_ACCESSOR, ControlValueAccessor, Validators,
-    FormControl, AbstractControl, NgControl
-} from '@angular/forms';
+import {forwardRef, Component, Input} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {trigger, transition, style} from '@angular/animations';
 
 import {isBlank} from 'caesium-core/lang';
 import {ArgumentError} from 'caesium-core/exception';
 
+import {proxyValueAccessor, ValueAccessorProxy} from '../input-proxy/value-accessor';
 import {CsEnum} from './enum-meta';
+
 
 @Component({
     moduleId: module.id,
     selector: 'cs-enum-select',
     template: `
-    <div class="select-container">
         <select class="form-control"
-            [ngModel]="value"
-            (ngModelChange)="_onValueChange($event)"
-            (blur)="touch.emit($event)">
+            [formControl]="control"
+            (blur)="_onTouched()">
             <option *ngFor="let value of enumType.values.toArray()" [ngValue]="value">
                 {{enumType.displayValues.get(value)}} 
             </option>
         </select>
         
-        <div class="other-input" *ngIf="isOtherSelected">
-            <cs-icon name="exchange" [fixedWidth]="true"></cs-icon>
-            <ng-content select=".form-control"></ng-content>
+        <div *ngIf="isOtherSelected" [@showOtherInput]="isOtherSelected">
+            <cs-icon *ngIf="isOtherSelected"
+                name="exchange" [fixedWidth]="true"></cs-icon>
+            <ng-content select="input" *ngIf="isOtherSelected" class="flex-1"></ng-content>
         </div>
-    </div>
     `,
-    styleUrls: ['enum-select.css'],
+    styleUrls: [`
+    :host {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }    
+    `],
     providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useFactory: (enumSelect: CsEnumSelect<any>) => new EnumSelectControlValueAccessor(enumSelect),
-            deps: [CsEnumSelect],
-            multi: true
-        }
+        proxyValueAccessor(forwardRef(() => CsEnumSelect))
+    ],
+    animations: [
+        trigger('showOtherInput', [
+            transition(':enter', [
+                style({width: '60%'})
+            ]),
+            transition(':leave', [
+                style({width: '0%'})
+            ])
+        ])
     ]
 })
-export class CsEnumSelect<T> {
+export class CsEnumSelect<T> implements ValueAccessorProxy {
     @Input('enum') enumType: CsEnum<T>;
-    @Input() value: T;
 
-    /**
-     * The value of the selected element has changed.
-     * @returns {Observable<any>}
-     */
-    @Output() valueChange = new EventEmitter<T>();
-    @Output() touch = new EventEmitter<any>();
+    control = new FormControl('');
+    private _onTouched = () => {};
+
+    registerOnTouched(fn: () => void) {
+        this._onTouched = fn;
+    }
 
     ngAfterViewInit() {
         if (isBlank(this.enumType))
@@ -64,21 +64,8 @@ export class CsEnumSelect<T> {
     }
 
     get isOtherSelected(): boolean {
-        return this.enumType.isOtherValue(this.value);
+        console.log('control value', this.control.value, this.enumType.isOtherValue(this.control.value));
+        return this.enumType.isOtherValue(this.control.value);
     }
-
-    private _onValueChange(value: T) {
-        this.value = value;
-        this.valueChange.emit(value);
-    }
-}
-
-
-@Injectable()
-class EnumSelectControlValueAccessor<T> implements ControlValueAccessor {
-    constructor(private enumSelect: CsEnumSelect<T>) {}
-    writeValue(obj: T): void { this.enumSelect.value = obj; }
-    registerOnChange(fn: any): void { this.enumSelect.valueChange.subscribe(fn); }
-    registerOnTouched(fn: any): void { this.enumSelect.touch.subscribe(fn); }
 }
 

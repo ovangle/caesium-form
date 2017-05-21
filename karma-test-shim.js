@@ -8,6 +8,7 @@ Error.stackTraceLimit = 0; // "No stacktrace"" is usually best for app testing.
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 var builtPath = '/base/';
+var srcPath = '/base/src/'
 
 __karma__.loaded = function () { };
 
@@ -21,12 +22,11 @@ function isSpecFile(path) {
 }
 
 function isBuiltFile(path) {
-    return isJsFile(path) && (path.substr(0, builtPath.length) == builtPath);
+return isJsFile(path)
+    && (path.substr(0, builtPath.length) === builtPath)
+    && (path.substr(0, srcPath.length) === srcPath);
 }
 
-var allSpecFiles = Object.keys(window.__karma__.files)
-    .filter(isSpecFile)
-    .filter(isBuiltFile);
 
 System.config({
     baseURL: 'base',
@@ -43,14 +43,17 @@ System.config({
         '@angular/platform-browser-dynamic/testing': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
         '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
         '@angular/router/testing': 'npm:@angular/router/bundles/router-testing.umd.js',
-        '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js',
+        '@angular/forms/testing': 'npm:@angular/forms/bundles/forms-testing.umd.js'
     }
 });
 
 System.import('systemjs.config.js')
-    .then(importSystemJsExtras)
-    .then(initTestBed)
-    .then(initTesting);
+  .then(initTestBed)
+  .then(loadTests)
+  .then(__karma__.start, (error) => {
+      console.error(error);
+      __karma__.error(error);
+  });
 
 /** Optional SystemJS configuration extras. Keep going w/o it */
 function importSystemJsExtras(){
@@ -81,20 +84,20 @@ function initTestBed(){
 
 }
 
-// Import all spec files and start karma
-function initTesting () {
+function loadTests() {
 
-    return Promise.all(
-        allSpecFiles.map(function (moduleName) {
-            return System.import(moduleName);
-        })
-    )
-        .then(__karma__.start, (error) => {
-            console.error(error);
-            __karma__.error(error);
-        });
+    var allSpecFiles = Object.keys(window.__karma__.files)
+      .filter(isSpecFile)
+      .filter(isBuiltFile);
+
+
+    function loadSpec(specFile) {
+        console.log('loading spec', specFile);
+        return System.import(specFile);
+    }
+
+    return Promise.all(allSpecFiles.map(loadSpec));
 }
-
 
 // TODO: Temporary hack to add a '_url' property to XHR.
 var xhrProto = XMLHttpRequest.prototype,

@@ -1,3 +1,5 @@
+
+
 module.exports = function(config) {
 
     var appBase     = 'base/';       // transpiled app JS and map files
@@ -14,7 +16,6 @@ module.exports = function(config) {
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'), // click "Debug" in browser to see it
-            require('karma-htmlfile-reporter') // crashing w/ strange socket error
         ],
 
         customLaunchers: {
@@ -30,8 +31,6 @@ module.exports = function(config) {
             'node_modules/systemjs/dist/system.src.js',
 
             // Polyfills
-            //'node_modules/core-js/client/shim.js',
-            //'node_modules/es6-shim/es6-shim.js',
             'node_modules/reflect-metadata/Reflect.js',
 
             // zone.js
@@ -65,6 +64,9 @@ module.exports = function(config) {
             { pattern: 'node_modules/caesium-core/**/*.js', included: false, watched: false},
             { pattern: 'node_modules/caesium-model/**/*.js', included: false, watched: false},
 
+            // typescript
+            { pattern: 'node_modules/typescript/**/*.js', included: false, watched: false},
+
             // Paths loaded via module imports:
             // Angular itself
             { pattern: 'node_modules/@angular/**/*.js', included: false, watched: false },
@@ -72,6 +74,7 @@ module.exports = function(config) {
 
             { pattern: 'systemjs.config.js', included: false, watched: false },
             { pattern: 'systemjs.config.extras.js', included: false, watched: false },
+
             'karma-test-shim.js',
 
             // transpiled application & spec code paths loaded via module imports

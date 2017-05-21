@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
 }
 
 cs-icon {
@@ -15,9 +16,3 @@ cs-icon {
   opacity: 0.4;
 }
 
-.other-input {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}

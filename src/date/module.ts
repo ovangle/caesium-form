@@ -1,35 +1,16 @@
 import {NgModule} from '@angular/core';
-import {CommonModule, DatePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-
-import {CsIconModule} from '../icon/module';
-import {CsBootstrapModule} from '../bootstrap/module';
-import {CsDatePickerModule} from './picker/module';
-
-import {CsDateInput, CsDateInputValueAccessor} from './date-input';
-
-export {CsDateInput};
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CsDateInput} from "./date-input";
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        CsIconModule,
-        CsBootstrapModule,
-        CsDatePickerModule
+        ReactiveFormsModule
     ],
     declarations: [
-        CsDateInput,
-        CsDateInputValueAccessor
-    ],
-    exports: [
-        // Re-export the date pipe from @angular/common for symmmetry with other datatype based
-        // modules (eg. Money, Phone etc.)
-        DatePipe,
-        CsDateInput,
-        CsDateInputValueAccessor
+        CsDateInput
     ]
-})
-export class CsDateModule {
 
-}
+})
+export class CsDateModule { }

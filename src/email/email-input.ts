@@ -14,8 +14,10 @@ import {
 } from '@angular/forms';
 
 import {isDefined, isBlank} from 'caesium-core/lang';
+import {ValidatorProxy, proxyValidator} from '../input-proxy/validator';
 
 import {CsIconModule} from '../icon/module';
+import {proxyValueAccessor} from "../input-proxy/value-accessor";
 
 export interface CsEmailInputErrors {
     required?: boolean;
@@ -40,11 +42,8 @@ export interface CsEmailInputErrors {
     </div>
     `,
     providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useClass: forwardRef(() => EmailInputControlValueAccessor),
-            multi: true
-        }
+        ...proxyValueAccessor(forwardRef(() => CsEmailInput)),
+        ...proxyValidator(forwardRef(() => CsEmailInput))
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

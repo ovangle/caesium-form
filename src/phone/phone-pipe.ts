@@ -1,22 +1,21 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {isString} from 'caesium-core/lang';
-import {ArgumentError} from 'caesium-core/exception';
-
-import {phoneFormatter} from './phone_number';
+import {InputMask} from '../masked-input/module';
 
 @Pipe({name: 'phone'})
 export class CsPhonePipe implements PipeTransform {
-
-    constructor() {}
+    public mask: InputMask = new InputMask('(99) 9999 9999', true);
 
     transform(value: any, ...args: any[]): string {
-        if (!args.length)
-            throw new ArgumentError('CsPhonePipe: No type specified for phone number');
-        if (!isString(value))
-            return value;
+        return this.mask.modelOrViewModelToView(value);
+    }
+}
 
-        let formatter = phoneFormatter(args[0]);
-        return formatter(value);
+@Pipe({name: 'mobilePhone'})
+export class CsMobilePhonePipe implements PipeTransform {
+    public mask: InputMask = new InputMask('9999 999 999', true);
+
+    transform(value: any, ...args: any[]): string {
+        return this.mask.modelOrViewModelToView(value);
     }
 }
